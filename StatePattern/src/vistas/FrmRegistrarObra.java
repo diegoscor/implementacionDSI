@@ -6,11 +6,26 @@
 package vistas;
 
 import controladores.CtrRegistrarObra;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -49,11 +64,9 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtNombreEmpleado = new javax.swing.JTextField();
-        txtTipoIngreso = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txtFecha = new javax.swing.JTextField();
-        txtHora = new javax.swing.JTextField();
+        txtFecha = new javax.swing.JLabel();
+        txtTipoIngreso = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -83,14 +96,20 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         txtCodSensor = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        listImagenes = new javax.swing.JList();
         btnAgregar = new javax.swing.JButton();
         btnQuitar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnPreview = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Sistema"));
 
@@ -98,9 +117,9 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         jLabel2.setText("Tipo Ingreso");
 
-        jLabel3.setText("Fecha");
+        jLabel3.setText("Fecha del Sistema: ");
 
-        jLabel4.setText("Hora");
+        txtFecha.setText("display_fecha");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -114,15 +133,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtNombreEmpleado)
-                    .addComponent(txtTipoIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, 184, Short.MAX_VALUE))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
+                    .addComponent(txtTipoIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel3)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtFecha)
-                    .addComponent(txtHora))
+                .addComponent(txtFecha)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -133,14 +148,12 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtNombreEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFecha))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtTipoIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtTipoIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de la Obra"));
@@ -241,7 +254,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel11)
                                 .addGap(29, 29, 29)
-                                .addComponent(txtAlto, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtAlto)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel15)
@@ -301,14 +314,24 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Administrar Imágenes"));
 
-        jScrollPane3.setViewportView(jList1);
+        listImagenes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listImagenesValueChanged(evt);
+            }
+        });
+        jScrollPane3.setViewportView(listImagenes);
 
         btnAgregar.setText("Agregar ->");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         btnQuitar.setText("<- Quitar");
 
-        jButton1.setEnabled(false);
-        jButton1.setFocusable(false);
+        btnPreview.setEnabled(false);
+        btnPreview.setFocusable(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -320,9 +343,9 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                     .addComponent(btnQuitar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -338,11 +361,16 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane3)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnPreview, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         btnAceptar.setText("Aceptar");
 
@@ -371,7 +399,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnAceptar))
@@ -416,6 +444,73 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                 });
     }//GEN-LAST:event_txtBuscadorArtistaKeyTyped
 
+    private void listImagenesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listImagenesValueChanged
+        if (this.listImagenes.getValueIsAdjusting() == false) {
+            if (this.listImagenes.getSelectedIndex() >= 0) {
+                FileInputStream imgStream = null;
+                try {
+                    String selected = (String) this.listImagenes.getSelectedValue();
+                    File f = new File(selected);
+                    imgStream = new FileInputStream(selected);
+                    BufferedImage myImg = ImageIO.read(imgStream);
+                    ImageIcon preview = new ImageIcon(myImg);
+//                    ImageIcon preview = new ImageIcon(getClass().getResource(selected));
+                    preview = new ImageIcon(preview.getImage().getScaledInstance(230, 130, java.awt.Image.SCALE_SMOOTH));
+                    this.btnPreview.setIcon(preview);
+                    this.btnPreview.setDisabledIcon(preview);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(FrmRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(FrmRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    try {
+                        imgStream.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(FrmRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_listImagenesValueChanged
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       Calendar date = new GregorianCalendar();
+
+       this.txtFecha.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + date.get(Calendar.MONTH) + " - " + date.get(Calendar.YEAR));
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        JFileChooser fileOpen = new JFileChooser();
+
+        // Get array of available formats
+        String[] suffices = ImageIO.getReaderFileSuffixes();
+
+        // Add a file filter for each one
+        FileFilter imageFilter = new FileNameExtensionFilter("Archivos de Imágenes", ImageIO.getReaderFileSuffixes());
+        fileOpen.addChoosableFileFilter(imageFilter);
+        fileOpen.setAcceptAllFileFilterUsed(false);
+
+        if (!fileOpen.isMultiSelectionEnabled()) {
+            fileOpen.setMultiSelectionEnabled(true);
+        }
+
+        int returnVal = fileOpen.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+            File[] files = fileOpen.getSelectedFiles();
+            for (int i = 0; i < files.length; i++) {
+                mdlList.addElement(files[i].getAbsolutePath());
+
+                listImagenes.setModel(mdlList);
+                listImagenes.setSelectedIndex(0);
+            }
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -456,12 +551,12 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnPreview;
     private javax.swing.JButton btnQuitar;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JComboBox cboEstilo;
     private javax.swing.JComboBox cboTecnica;
     private javax.swing.JComboBox cboTematica;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -471,13 +566,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -485,14 +578,14 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JList listImagenes;
     private javax.swing.JTable tableArtista;
     private javax.swing.JTextField txtAlto;
     private javax.swing.JTextField txtAncho;
     private javax.swing.JTextField txtBuscadorArtista;
     private javax.swing.JTextField txtCodSensor;
     private javax.swing.JTextArea txtDescrip;
-    private javax.swing.JTextField txtFecha;
-    private javax.swing.JTextField txtHora;
+    private javax.swing.JLabel txtFecha;
     private javax.swing.JTextField txtNombreEmpleado;
     private javax.swing.JTextField txtNombreObra;
     private javax.swing.JTextField txtPeso;
@@ -502,6 +595,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
     private CtrRegistrarObra gestor;
     private TableRowSorter<TableModel> sorter;
+    DefaultListModel mdlList = new DefaultListModel();
     
     public void setManejador(CtrRegistrarObra c){
         gestor = c;
