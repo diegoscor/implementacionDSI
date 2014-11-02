@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import objetos.Artista;
-import objetos.Tematica;
 
 /**
  *
@@ -24,7 +23,7 @@ public class ModelArtista extends Conexion {
     private String sql;
 
     public ArrayList<Artista> obtenerTodos() {
-        
+        sql="SELECT * FROM Artista";
         ResultSet rs = super.ejecutarConsulta(sql);
         ArrayList<Artista> list = new ArrayList();
         Artista e;
@@ -37,7 +36,7 @@ public class ModelArtista extends Conexion {
                 list.add(e);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ModelEstilo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModelArtista.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         super.cerrarCnx();

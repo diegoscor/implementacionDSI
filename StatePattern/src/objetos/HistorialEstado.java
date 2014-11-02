@@ -13,22 +13,16 @@ import java.util.Date;
  */
 public class HistorialEstado {
     
-    private Date fecha;
-    private Date hora;
+    private Date fechaHora;
     private Estado estado;
 
-    public HistorialEstado(Date fecha, Date hora, Estado estado) {
-        this.fecha = fecha;
-        this.hora = hora;
+    public HistorialEstado(Date fecha, Estado estado) {
+        this.fechaHora = fecha;
         this.estado = estado;
     }
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public Date getHora() {
-        return hora;
+    public Date getFechaHora() {
+        return fechaHora;
     }
 
     public Estado getEstado() {

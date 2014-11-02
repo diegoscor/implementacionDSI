@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import objetos.Tecnica;
 import objetos.Tematica;
 
 /**
@@ -25,6 +24,7 @@ public class ModelTematica extends Conexion {
 
     public ArrayList<Tematica> obtenerTodos() {
         
+        sql="SELECT * FROM Tematica";
         ResultSet rs = super.ejecutarConsulta(sql);
         ArrayList<Tematica> list = new ArrayList();
         Tematica e;
@@ -37,7 +37,7 @@ public class ModelTematica extends Conexion {
                 list.add(e);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ModelEstilo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModelTematica.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         super.cerrarCnx();

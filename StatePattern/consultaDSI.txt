@@ -1,0 +1,129 @@
+
+-- Table: Empleado
+CREATE TABLE Empleado ( 
+    cuit         VARCHAR PRIMARY KEY
+                         NOT NULL
+                         UNIQUE,
+    apellido     VARCHAR NOT NULL,
+    nombre       VARCHAR NOT NULL,
+    domicilio    VARCHAR,
+    mail         VARCHAR,
+    sexo         VARCHAR,
+    dni          INTEGER,
+    telefono     INTEGER,
+    fechaIngreso DATE,
+    fechaEgreso  DATE 
+);
+
+
+-- Table: Usuario
+CREATE TABLE Usuario ( 
+    nombre       VARCHAR NOT NULL,
+    contraseña   VARCHAR NOT NULL,
+    caducidad    BOOLEAN,
+    cuitEmpleado VARCHAR REFERENCES Empleado ( cuit ) ON DELETE CASCADE
+                                                      ON UPDATE CASCADE,
+    PRIMARY KEY ( nombre, contraseña ) 
+);
+
+
+-- Table: Sesion
+CREATE TABLE Sesion ( 
+    fechaInicio       DATE    NOT NULL,
+    fechaFin          DATE    NOT NULL,
+    nombreUsuario     VARCHAR NOT NULL,
+    contraseñaUsuario VARCHAR NOT NULL,
+    PRIMARY KEY ( fechaInicio, fechaFin, nombreUsuario, contraseñaUsuario ),
+    FOREIGN KEY ( nombreUsuario, contraseñaUsuario ) REFERENCES Usuario ( nombre, contraseña ) ON DELETE CASCADE
+                                                                                                   ON UPDATE CASCADE 
+);
+
+
+-- Table: Estado
+CREATE TABLE Estado ( 
+    nombre      VARCHAR PRIMARY KEY
+                        NOT NULL,
+    descripcion VARCHAR 
+);
+
+
+-- Table: Tecnica
+CREATE TABLE Tecnica ( 
+    id          INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                        NOT NULL,
+    nombre      VARCHAR NOT NULL,
+    descripcion VARCHAR 
+);
+
+
+-- Table: Estilo
+CREATE TABLE Estilo ( 
+    id          INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                        NOT NULL,
+    nombre      VARCHAR NOT NULL,
+    descripcion VARCHAR 
+);
+
+
+-- Table: Artista
+CREATE TABLE Artista ( 
+    idArtista   INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                        NOT NULL,
+    nombre      VARCHAR NOT NULL,
+    apellido    VARCHAR NOT NULL,
+    mail        VARCHAR,
+    pseudonimo  VARCHAR,
+    antecedente VARCHAR,
+    sexo        VARCHAR,
+    telefono    INTEGER 
+);
+
+
+-- Table: TipoIngreso
+CREATE TABLE TipoIngreso ( 
+    id          INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                        NOT NULL,
+    nombre      VARCHAR NOT NULL,
+    descripcion VARCHAR 
+);
+
+
+-- Table: Tematica
+CREATE TABLE Tematica ( 
+    idTematica INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                       NOT NULL,
+    nombre     VARCHAR 
+);
+
+
+-- Table: Obra
+CREATE TABLE Obra ( 
+    sensor            INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                              NOT NULL,
+    nombre            VARCHAR NOT NULL,
+    fechaCreacion     DATE,
+    fechaRegistracion DATE,
+    alto              INTEGER,
+    ancho             INTEGER,
+    peso              REAL,
+    valuacion         REAL,
+    idEstilo          INTEGER REFERENCES Estilo ( id ) ON DELETE SET NULL
+                                                       ON UPDATE CASCADE,
+    idTecnica         INTEGER REFERENCES Tecnica ( id ) ON DELETE SET NULL
+                                                        ON UPDATE CASCADE,
+    idTematica        INTEGER REFERENCES Tematica ( idTematica ) ON DELETE SET NULL
+                                                                 ON UPDATE CASCADE 
+);
+
+
+-- Table: HistorialEstado
+CREATE TABLE HistorialEstado ( 
+    fecha        DATETIME NOT NULL,
+    nombreEstado VARCHAR  NOT NULL
+                          REFERENCES Estado ( nombre ) ON DELETE CASCADE
+                                                       ON UPDATE CASCADE,
+    sensorObra   INTEGER  REFERENCES Obra ( sensor ) ON DELETE CASCADE
+                                                     ON UPDATE CASCADE,
+    PRIMARY KEY ( fecha, nombreEstado, sensorObra ) 
+);
+

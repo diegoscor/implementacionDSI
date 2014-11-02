@@ -12,12 +12,18 @@ package objetos;
 public class TipoIngreso {
     
     private String nombre, descripcion;
+    private int id;
 
-    public TipoIngreso(String nombre, String descripcion) {
+    public TipoIngreso(int id, String nombre, String descripcion) {
+        this.id=id;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
 
+    public int getId(){
+        return id;
+    }
+    
     public String getNombre() {
         return nombre;
     }

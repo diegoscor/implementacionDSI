@@ -23,6 +23,7 @@ public class ModelEstilo extends Conexion {
     private String sql;
 
     public ArrayList<Estilo> obtenerTodos() {
+        sql="SELECT * FROM Estilo";
         
         ResultSet rs = super.ejecutarConsulta(sql);
         ArrayList<Estilo> list = new ArrayList();

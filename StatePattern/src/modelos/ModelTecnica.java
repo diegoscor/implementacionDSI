@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import objetos.Estilo;
 import objetos.Tecnica;
 
 /**
@@ -24,6 +23,7 @@ public class ModelTecnica extends Conexion {
     private String sql;
 
     public ArrayList<Tecnica> obtenerTodos() {
+        sql="SELECT * FROM Tecnica";
         
         ResultSet rs = super.ejecutarConsulta(sql);
         ArrayList<Tecnica> list = new ArrayList();
@@ -37,7 +37,7 @@ public class ModelTecnica extends Conexion {
                 list.add(e);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ModelEstilo.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ModelTecnica.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         super.cerrarCnx();

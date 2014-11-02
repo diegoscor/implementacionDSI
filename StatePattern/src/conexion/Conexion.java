@@ -19,17 +19,16 @@ import javax.swing.JOptionPane;
  * @author Diego
  */
 public class Conexion {
-    
-    private String ruta = "miDiccionario.s3db", nomArch;
+
+    private String ruta = "miDataBase.s3db", nomArch;
     private Connection cnx;
     private Statement st;
     private PreparedStatement ps;
     private ResultSet rs;
     private String sql;
-  
 
     public Conexion() {
-        
+
         try {
             Class.forName("org.sqlite.JDBC");
             cnx = DriverManager.getConnection("jdbc:sqlite:" + ruta);
@@ -51,24 +50,53 @@ public class Conexion {
     }
 
     /**
-     * Verifica que exista una base de datos sobre la cual trabajar, y en caso contrario la crea.
+     * Verifica que exista una base de datos sobre la cual trabajar, y en caso
+     * contrario la crea.
      */
     public void crearDB() {
         try {
             File dicc = new File(ruta);
             if (!dicc.exists() || dicc.length() < 1) {
                 StringBuilder query = new StringBuilder("");
-                query.append("CREATE TABLE palabra (idPalabra  VARCHAR  PRIMARY KEY  NOT NULL,");
-                query.append(" frecuencia  INTEGER  NOT NULL  DEFAULT ( 0 ));");
+                query.append("CREATE TABLE Empleado (cuit VARCHAR PRIMARY KEY  NOT NULL, apellido VARCHAR NOT NULL, nombre VARCHAR NOT NULL, ");
+                query.append("domicilio VARCHAR, mail  VARCHAR, sexo  VARCHAR, dni INTEGER, telefono INTEGER, fechaIngreso DATE, fechaEgreso  DATE);");
                 hacerPersistente(query.toString());
-                query = new StringBuilder("");
-                query.append(" CREATE TABLE archivo (id  INTEGER  PRIMARY KEY  ASC  AUTOINCREMENT  NOT NULL,");
-                query.append(" nombre  TEXT  NOT NULL );");
+                query = new StringBuilder("CREATE TABLE Usuario ( nombre VARCHAR NOT NULL, contraseña   VARCHAR NOT NULL, ");
+                query.append(" caducidad BOOLEAN, cuitEmpleado VARCHAR REFERENCES Empleado ( cuit ) ON DELETE CASCADE  ON UPDATE CASCADE,");
+                query.append(" PRIMARY KEY ( nombre, contraseña ));");
                 hacerPersistente(query.toString());
-                query = new StringBuilder("");
-                query.append(" CREATE TABLE aparicion (idPalabra  VARCHAR  NOT NULL  REFERENCES palabra ( idPalabra ) ON DELETE CASCADE  ON UPDATE CASCADE,");
-                query.append(" idArchivo INTEGER  NOT NULL  REFERENCES archivo ( id ) ON DELETE CASCADE  ON UPDATE CASCADE,");
-                query.append(" PRIMARY KEY ( idPalabra ASC, idArchivo ASC ));");
+                query = new StringBuilder("CREATE TABLE Sesion( fechaInicio DATE NOT NULL, fechaFin DATE  NOT NULL, nombreUsuario VARCHAR NOT NULL, ");
+                query.append(" contraseñaUsuario VARCHAR NOT NULL, PRIMARY KEY(fechaInicio, fechaFin, nombreUsuario, contraseñaUsuario), FOREIGN KEY ( nombreUsuario");
+                query.append(" , contraseñaUsuario ) REFERENCES Usuario ( nombre, contraseña ) ON DELETE CASCADE ON UPDATE CASCADE);");
+                hacerPersistente(query.toString());
+                query = new StringBuilder("CREATE TABLE Estado(nombre VARCHAR PRIMARY KEY NOT NULL, descripcion VARCHAR);");
+                hacerPersistente(query.toString());
+                query = new StringBuilder("CREATE TABLE Tecnica ( id INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, nombre  VARCHAR NOT NULL, ");
+                query.append("descripcion VARCHAR);");
+                hacerPersistente(query.toString());
+                query = new StringBuilder("CREATE TABLE Estilo ( id INTEGER PRIMARY KEY ASC AUTOINCREMENT  NOT NULL, ");
+                query.append("nombre  VARCHAR NOT NULL, descripcion VARCHAR);");
+                hacerPersistente(query.toString());
+                query = new StringBuilder("CREATE TABLE Artista ( idArtista INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, ");
+                query.append("nombre  VARCHAR NOT NULL, apellido VARCHAR NOT NULL, mail VARCHAR, pseudonimo VARCHAR, ");
+                query.append("antecedente VARCHAR, sexo VARCHAR, telefono    INTEGER);");
+                hacerPersistente(query.toString());
+                query = new StringBuilder("CREATE TABLE TipoIngreso ( id INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, ");
+                query.append(" nombre  VARCHAR NOT NULL, descripcion VARCHAR);");
+                hacerPersistente(query.toString());
+                query = new StringBuilder("CREATE TABLE Tematica ( idTematica INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, ");
+                query.append(" nombre VARCHAR);");
+                hacerPersistente(query.toString());
+                query = new StringBuilder("CREATE TABLE Obra ( sensor INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, ");
+                query.append(" nombre VARCHAR NOT NULL, fechaCreacion DATE, fechaRegistracion DATE, alto INTEGER, ");
+                query.append(" ancho  INTEGER, peso REAL, valuacion  REAL, idEstilo INTEGER REFERENCES Estilo ( id ) ON DELETE SET NULL  ON UPDATE CASCADE ");
+                query.append(", idTecnica INTEGER REFERENCES Tecnica ( id ) ON DELETE SET NULL  ON UPDATE CASCADE, ");
+                query.append("idTematica INTEGER REFERENCES Tematica ( idTematica ) ON DELETE SET NULL  ON UPDATE CASCADE);");
+                hacerPersistente(query.toString());
+                query = new StringBuilder("CREATE TABLE HistorialEstado ( fecha DATETIME NOT NULL, ");
+                query.append(" nombreEstado VARCHAR NOT NULL REFERENCES Estado(nombre) ON DELETE CASCADE ON UPDATE CASCADE,");
+                query.append(" sensorObra   INTEGER REFERENCES Obra(sensor) ON DELETE CASCADE ON UPDATE CASCADE,");
+                query.append(" PRIMARY KEY(fecha, nombreEstado, sensorObra));");
                 hacerPersistente(query.toString());
                 cnx.commit();
                 System.out.println("Tablas creadas exitosamente");
@@ -87,9 +115,11 @@ public class Conexion {
             }
         }
     }
-    
+
     /**
-     *Realiza la ejecución de una sentencia UPDATE, INSERT, CREATE, DROP, etc pasada por parámetro en un String
+     * Realiza la ejecución de una sentencia UPDATE, INSERT, CREATE, DROP, etc
+     * pasada por parámetro en un String
+     *
      * @throws SQLException
      */
     public void hacerPersistente(String sql) throws SQLException {
@@ -99,8 +129,8 @@ public class Conexion {
     }
 
     /**
-     * Realiza la ejecución de una consulta SELECT pasada por parámetro en un String cuyo retorno será una 
-     * salida de tipo ResultSet
+     * Realiza la ejecución de una consulta SELECT pasada por parámetro en un
+     * String cuyo retorno será una salida de tipo ResultSet
      */
     public ResultSet ejecutarConsulta(String sql) {
         try {
