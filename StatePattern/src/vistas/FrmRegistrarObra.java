@@ -6,6 +6,7 @@
 package vistas;
 
 import controladores.CtrRegistrarObra;
+import estados.PendienteDeAsignacion;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +23,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -29,7 +32,10 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import objetos.Estado;
 import objetos.Estilo;
+import objetos.HistorialEstado;
+import objetos.Obra;
 import objetos.Tecnica;
 import objetos.Tematica;
 import utils.ComboRendererEstilo;
@@ -43,6 +49,7 @@ import utils.ComboRendererTematica;
 public class FrmRegistrarObra extends javax.swing.JFrame {
 
     private static DefaultTableModel modelo;
+
     /**
      * Creates new form frmRegistrarObra
      */
@@ -373,6 +380,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         });
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -474,9 +486,9 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     }//GEN-LAST:event_listImagenesValueChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       Calendar date = new GregorianCalendar();
+        Calendar date = new GregorianCalendar();
 
-       this.txtFecha.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + date.get(Calendar.MONTH) + " - " + date.get(Calendar.YEAR));
+        this.txtFecha.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + date.get(Calendar.MONTH) + " - " + date.get(Calendar.YEAR));
     }//GEN-LAST:event_formWindowOpened
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -510,6 +522,47 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        String nombre = "";
+        Date fechaCreacion = null;
+        Date fechaRegistracion = null;
+        double alto = -1;
+        double ancho = -1;
+        double peso = -1;
+        double valuacion = -1;
+        long sensor = -1;
+        Estilo estilo = null;
+        Tecnica tecnica = null;
+        Tematica tematica = null;
+        ArrayList<HistorialEstado> historial = null;
+
+        if (this.txtNombreObra.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Debe completar el campo NOMBRE", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (this.txtCodSensor.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+            } else {
+                nombre = this.txtNombreObra.getText();
+                //fechaCreacion = this.
+                fechaRegistracion = new Date();
+                alto = Double.parseDouble(this.txtAlto.getText());
+                ancho = Double.parseDouble(this.txtAncho.getText());
+                peso = Double.parseDouble(this.txtPeso.getText());
+                valuacion = Double.parseDouble(this.txtValuacion.getText());
+                sensor = Long.parseLong(this.txtCodSensor.getText());
+                estilo = (Estilo) this.cboEstilo.getSelectedItem();
+                tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
+                tematica = (Tematica) this.cboTematica.getSelectedItem();
+                Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
+                        "La obrea se encuentra en deposito para ser asignada a una colección.");
+                HistorialEstado h = new HistorialEstado(new Date(),e);
+                historial.add(h);
+                
+                Obra obra = new Obra(nombre,fechaCreacion,fechaRegistracion, alto,ancho,peso,valuacion,sensor,estilo,tecnica,tematica,historial);
+            }
+        }
+    }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -596,12 +649,12 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private CtrRegistrarObra gestor;
     private TableRowSorter<TableModel> sorter;
     DefaultListModel mdlList = new DefaultListModel();
-    
-    public void setManejador(CtrRegistrarObra c){
+
+    public void setManejador(CtrRegistrarObra c) {
         gestor = c;
     }
-    
-    public void cargarComboBoxEtilo(ArrayList<Estilo> list){
+
+    public void cargarComboBoxEtilo(ArrayList<Estilo> list) {
         DefaultComboBoxModel mdlc = new DefaultComboBoxModel();
         for (Estilo list1 : list) {
             mdlc.addElement(list1);
@@ -609,8 +662,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         this.cboEstilo.setModel(mdlc);
         this.cboEstilo.setRenderer(new ComboRendererEstilo());
     }
-    
-    public void cargarComboBoxTecnica(ArrayList<Tecnica> list){
+
+    public void cargarComboBoxTecnica(ArrayList<Tecnica> list) {
         DefaultComboBoxModel mdlc = new DefaultComboBoxModel();
         for (Tecnica list1 : list) {
             mdlc.addElement(list1);
@@ -618,8 +671,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         this.cboEstilo.setModel(mdlc);
         this.cboEstilo.setRenderer(new ComboRendererTecnica());
     }
-    
-    public void cargarComboBoxTematica(ArrayList<Tematica> list){
+
+    public void cargarComboBoxTematica(ArrayList<Tematica> list) {
         DefaultComboBoxModel mdlc = new DefaultComboBoxModel();
         for (Tematica list1 : list) {
             mdlc.addElement(list1);
@@ -627,14 +680,14 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         this.cboEstilo.setModel(mdlc);
         this.cboEstilo.setRenderer(new ComboRendererTematica());
     }
-    
-    
-    public void cargarGrilla(DefaultTableModel mdl){
+
+    public void cargarGrilla(DefaultTableModel mdl) {
         this.tableArtista.setModel(mdl);
     }
-    
+
     /**
-     * Método que crea el filtro para buscar en la grilla ya sean palabras, archivos, frecuencias o id.
+     * Método que crea el filtro para buscar en la grilla ya sean palabras,
+     * archivos, frecuencias o id.
      */
     public void crearFiltro() {
         TableModel model = tableArtista.getModel();
@@ -643,7 +696,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     }
 
     /**
-     * Método que establece que el filtro actuará acorde a la información del TextField jTFBuscador
+     * Método que establece que el filtro actuará acorde a la información del
+     * TextField jTFBuscador
      */
     public void newFilter() {
         crearFiltro();
@@ -655,7 +709,5 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         }
     }
-    
-    
 
 }

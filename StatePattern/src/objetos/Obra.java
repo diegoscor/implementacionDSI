@@ -14,17 +14,33 @@ import java.util.Date;
  */
 public class Obra {
     
+    private int id;
     private String nombre;
     private Date fechaCreacion, fechaRegistracion;
-    private int alto, ancho;
-    private double peso, valuacion;
+    private double alto, ancho, peso, valuacion;
     private long sensor;
     private Estilo estilo;
     private Tecnica tecnica;
     private Tematica tematica;
     private ArrayList<HistorialEstado> historial;
+    
+    public Obra(int id,String nombre, Date fechaCreacion, Date fechaRegistracion, double alto, double ancho, double peso, double valuacion, long sensor, Estilo estilo, Tecnica tecnica, Tematica tematica, ArrayList<HistorialEstado> historial) {
+        this.id = id;
+        this.nombre = nombre;
+        this.fechaCreacion = fechaCreacion;
+        this.fechaRegistracion = fechaRegistracion;
+        this.alto = alto;
+        this.ancho = ancho;
+        this.peso = peso;
+        this.valuacion = valuacion;
+        this.sensor = sensor;
+        this.estilo = estilo;
+        this.tecnica = tecnica;
+        this.tematica = tematica;
+        this.historial = historial;
+    }
 
-    public Obra(String nombre, Date fechaCreacion, Date fechaRegistracion, int alto, int ancho, double peso, double valuacion, long sensor, Estilo estilo, Tecnica tecnica, Tematica tematica, ArrayList<HistorialEstado> historial) {
+    public Obra(String nombre, Date fechaCreacion, Date fechaRegistracion, double alto, double ancho, double peso, double valuacion, long sensor, Estilo estilo, Tecnica tecnica, Tematica tematica, ArrayList<HistorialEstado> historial) {
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaRegistracion = fechaRegistracion;
@@ -51,11 +67,11 @@ public class Obra {
         return fechaRegistracion;
     }
 
-    public int getAlto() {
+    public double getAlto() {
         return alto;
     }
 
-    public int getAncho() {
+    public double getAncho() {
         return ancho;
     }
 
@@ -70,6 +86,11 @@ public class Obra {
     public long getSensor() {
         return sensor;
     }
+
+    public int getId() {
+        return id;
+    }
+    
     
     public void modificarEstado(HistorialEstado e){
         historial.add(e);
