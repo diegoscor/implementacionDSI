@@ -6,6 +6,7 @@
 package vistas;
 
 import controladores.CtrRegistrarObra;
+import estados.PendienteDeAsignacion;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +23,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -30,7 +33,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import objetos.Empleado;
+import objetos.Estado;
 import objetos.Estilo;
+import objetos.HistorialEstado;
+import objetos.Obra;
 import objetos.Tecnica;
 import objetos.Tematica;
 import objetos.TipoIngreso;
@@ -384,6 +390,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         });
 
         btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -521,6 +532,58 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        String nombre;
+        Date fechaCreacion = null;
+        Date fechaRegistracion;
+        double alto = -1;
+        double ancho = -1;
+        double peso = -1;
+        double valuacion = -1;
+        long sensor;
+        Estilo estilo;
+        Tecnica tecnica;
+        Tematica tematica;
+        ArrayList<HistorialEstado> historial = new ArrayList();
+
+        if (this.txtNombreObra.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Debe completar el campo NOMBRE", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if ("0".equals(this.txtSensor.getText())) {
+                JOptionPane.showMessageDialog(rootPane, "Error de DB con el CODIGO SENSOR", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+            } else {
+                nombre = this.txtNombreObra.getText();
+                //fechaCreacion = this.
+                fechaRegistracion = new Date();
+                if(!this.txtAlto.getText().isEmpty()) {
+                    alto = Double.parseDouble(this.txtAlto.getText());
+                }
+                if(!this.txtAncho.getText().isEmpty()) {
+                    ancho = Double.parseDouble(this.txtAncho.getText());
+                }
+                if(!this.txtPeso.getText().isEmpty()) {
+                    peso = Double.parseDouble(this.txtPeso.getText());
+                }
+                if(!this.txtValuacion.getText().isEmpty()) {
+                    valuacion = Double.parseDouble(this.txtValuacion.getText());
+                }
+                sensor = Long.parseLong(this.txtSensor.getText());
+                estilo = (Estilo) this.cboEstilo.getSelectedItem();
+                tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
+                tematica = (Tematica) this.cboTematica.getSelectedItem();
+                Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
+                        "La obrea se encuentra en deposito para ser asignada a una colección.");
+                HistorialEstado h = new HistorialEstado(new Date(),e);
+                historial.add(h);
+                
+                Obra obra = new Obra(nombre,fechaCreacion,fechaRegistracion, alto,ancho,peso,valuacion,sensor,estilo,tecnica,tematica,historial);
+                System.out.println("Se guardo la obra: " + obra.getNombre()+ " con sensor nro: "+ obra.getSensor());
+                
+            }
+        }
+        dispose();
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -551,6 +614,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new FrmRegistrarObra().setVisible(true);
             }
@@ -608,6 +672,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     public void setManejador(CtrRegistrarObra c) {
         gestor = c;
     }
+
 
     /**
      * El SelectedIndex vendría de la operación que llama al CU Registrar Obra,
