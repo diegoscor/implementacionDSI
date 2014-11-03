@@ -43,7 +43,7 @@ public class ModelArtista extends Conexion {
         } catch (SQLException ex) {
             Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        super.cerrarCnx();
         return modeloArtista;
     }
 
@@ -60,7 +60,6 @@ public class ModelArtista extends Conexion {
         for (int i = 1; i <= columnCount; i++) {
             columnNames.add(metaData.getColumnName(i));
         }
-
         return columnNames;
     }
 
@@ -82,7 +81,6 @@ public class ModelArtista extends Conexion {
             }
             data.add(vector);
         }
-
         return data;
     }
     

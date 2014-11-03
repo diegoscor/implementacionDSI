@@ -35,6 +35,7 @@ public class ModelRegistrarObra extends Conexion {
         } catch (SQLException ex) {
             Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
         }
+        super.cerrarCnx();
         return false;
     }
 
@@ -43,7 +44,7 @@ public class ModelRegistrarObra extends Conexion {
         String nombre = o.getNombre();
         Date fechaRegistracion = o.getFechaRegistracion();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        int tipoIngreso=o.getTipoIngreso().getId();
+        int tipoIngreso = o.getTipoIngreso().getId();
         String empleadoReg = o.getEmpleadoReg().getCuit();
         ArrayList<HistorialEstado> historial = o.getHistorial();
         ArrayList<String> imagenes = o.getImagenes();
@@ -53,8 +54,8 @@ public class ModelRegistrarObra extends Conexion {
         try {
             System.out.println("Entro a escribir");
             sql = "INSERT INTO Obra (sensor, nombre, fechaRegistracion, idTipoIngreso, idEmpleado) ";
-            sql += " VALUES(" + sensor + ", '" + nombre + "', '" + dateFormat.format(fechaRegistracion) +"', "+ tipoIngreso + ", '" + empleadoReg + "')";
-            System.out.println("La sentencia sql es : "+ sql);
+            sql += " VALUES(" + sensor + ", '" + nombre + "', '" + dateFormat.format(fechaRegistracion) + "', " + tipoIngreso + ", '" + empleadoReg + "')";
+            System.out.println("La sentencia sql es : " + sql);
             super.hacerPersistente(sql);
             addEstilo(o);
             addTecnica(o);
@@ -74,7 +75,7 @@ public class ModelRegistrarObra extends Conexion {
             }
             System.out.println("escribo historial");
             sql = "INSERT INTO HistorialEstado (fecha, nombreEstado, sensorObra) ";
-            sql += " VALUES('" + fechaRegistracion + "', '" + e + "', " + sensor;
+            sql += " VALUES('" + dateFormat.format(fechaRegistracion) + "', '" + e + "', " + sensor + ")";
             System.out.println("La ultima sentencia sql es: " + sql);
             super.hacerPersistente(sql);
             return true;
@@ -88,71 +89,71 @@ public class ModelRegistrarObra extends Conexion {
         if (o.getEstilo() != null) {
             int estilo = o.getEstilo().getId();
             sql = "UPDATE Obra SET idEstilo=" + estilo + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
-    
+
     public void addTecnica(Obra o) throws SQLException {
         if (o.getTecnica() != null) {
             int tecnica = o.getTecnica().getId();
             sql = "UPDATE Obra SET idTecnica=" + tecnica + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
-    
+
     public void addTematica(Obra o) throws SQLException {
         if (o.getTematica() != null) {
             int tematica = o.getTematica().getId();
             sql = "UPDATE Obra SET idTematica=" + tematica + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
-    
+
     public void addArtista(Obra o) throws SQLException {
         if (o.getArtista() != null) {
             int artista = o.getArtista().getId();
             sql = "UPDATE Obra SET idArtista=" + artista + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
-    
+
     public void addAlto(Obra o) throws SQLException {
         if (o.getAlto() != 0) {
             int alto = o.getAlto();
             sql = "UPDATE Obra SET alto=" + alto + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
-    
+
     public void addAncho(Obra o) throws SQLException {
         if (o.getAncho() != 0) {
             int ancho = o.getAncho();
             sql = "UPDATE Obra SET ancho=" + ancho + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
-    
+
     public void addFechaCreacion(Obra o) throws SQLException {
         if (o.getFechaCreacion() != 0) {
             int fechaCreacion = o.getFechaCreacion();
             sql = "UPDATE Obra SET fechaCreacion=" + fechaCreacion + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
-    
+
     public void addPeso(Obra o) throws SQLException {
         if (o.getPeso() != 0) {
             double peso = o.getPeso();
             sql = "UPDATE Obra SET peso=" + peso + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
-    
+
     public void addValuacion(Obra o) throws SQLException {
         if (o.getValuacion() != 0) {
             double valor = o.getValuacion();
             sql = "UPDATE Obra SET valuacion=" + valor + " WHERE sensor= " + o.getSensor();
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
         }
     }
 }

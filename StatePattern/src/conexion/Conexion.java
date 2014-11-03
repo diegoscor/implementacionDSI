@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +25,7 @@ public class Conexion {
     private String ruta = "miDataBase.s3db";
     private Connection cnx;
     private PreparedStatement ps;
-    
+
     public Conexion() {
 
         try {
@@ -33,6 +35,17 @@ public class Conexion {
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void abrirConexion() {
+        try {
+            Class.forName("org.sqlite.JDBC");
+            cnx = DriverManager.getConnection("jdbc:sqlite:" + ruta);
+            cnx.setAutoCommit(false);
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     /**
@@ -121,9 +134,25 @@ public class Conexion {
      * @throws SQLException
      */
     public void hacerPersistente(String sql) throws SQLException {
-        ps = cnx.prepareStatement(sql);
-        ps.executeUpdate();
 
+        cnx.close();
+        abrirConexion();
+        Statement stmt = cnx.createStatement();
+        stmt.executeUpdate(sql);
+        stmt.close();
+        cnx.close();
+
+    }
+
+    public void realizarUpdate(String sql) throws SQLException {
+       
+        cnx.close(); 
+        abrirConexion();
+        Statement stmt = cnx.createStatement();
+        stmt.executeUpdate(sql);
+        stmt.close();
+        cnx.commit();
+        cnx.close();
     }
 
     /**
