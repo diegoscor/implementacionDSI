@@ -13,10 +13,17 @@ import java.util.Date;
  */
 public class Sesion {
     
+    private int id;
     private Date fechaFin, fechaInicio;
     private Usuario usuario;
 
     public Sesion(Date fechaFin, Date fechaInicio) {
+        this.fechaFin = fechaFin;
+        this.fechaInicio = fechaInicio;
+    }
+    
+    public Sesion(int id, Date fechaFin, Date fechaInicio) {
+        this.id = id;
         this.fechaFin = fechaFin;
         this.fechaInicio = fechaInicio;
     }

@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,6 +105,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         txtValuacion = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         txtCodSensor = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        txtAño = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listImagenes = new javax.swing.JList();
@@ -114,12 +117,15 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         btnAceptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registrar Obra");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
+
+        jPanel1.setToolTipText("");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Sistema"));
 
@@ -131,7 +137,6 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         txtFecha.setText("display_fecha");
 
-        cboTipoIngreso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboTipoIngreso.setFocusable(false);
 
         txtEmpleado.setText("display_nombreEmpleado");
@@ -222,6 +227,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         jLabel15.setText("Código Sensor:");
 
+        jLabel4.setText("Año Creacion:");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -245,18 +252,22 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(cboTematica, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addGap(25, 25, 25)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cboEstilo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cboTecnica, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(jLabel5)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14)
+                                    .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
-                                .addComponent(txtValuacion, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtAño, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtValuacion, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -292,8 +303,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     .addComponent(cboEstilo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtBuscadorArtista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrar))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -306,7 +317,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(txtNombreObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
@@ -329,7 +340,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     .addComponent(txtValuacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
                     .addComponent(txtCodSensor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(txtAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Administrar Imágenes"));
@@ -363,7 +378,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, 119, Short.MAX_VALUE)
                     .addComponent(btnQuitar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -406,23 +421,25 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnAceptar)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCancelar))))
+                        .addComponent(btnCancelar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,7 +453,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 14, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -499,7 +516,6 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Calendar date = new GregorianCalendar();
-
         this.txtFecha.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + date.get(Calendar.MONTH) + " - " + date.get(Calendar.YEAR));
     }//GEN-LAST:event_formWindowOpened
 
@@ -536,58 +552,19 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        String nombre;
-        Date fechaCreacion = null;
-        Date fechaRegistracion;
-        double alto = -1;
-        double ancho = -1;
-        double peso = -1;
-        double valuacion = -1;
-        long sensor;
-        Estilo estilo;
-        Tecnica tecnica;
-        Tematica tematica;
-        ArrayList<HistorialEstado> historial = new ArrayList();
 
-        if (this.txtNombreObra.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "Debe completar el campo NOMBRE", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+        Obra obra = this.generarObra();
+        
+        if (gestor.insertarObra(obra)) {
+            System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
+            JOptionPane.showMessageDialog(rootPane, "Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor(), "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (this.txtCodSensor.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
-            } else {
-                sensor = Long.parseLong(this.txtCodSensor.getText());
-                if (gestor.validarSensor(sensor)) {
-                    JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR con un código ÚNICO", "Inconsistencia de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    nombre = this.txtNombreObra.getText();
-                    //fechaCreacion = this.
-                    fechaRegistracion = new Date();
-                    if (!this.txtAlto.getText().isEmpty()) {
-                        alto = Double.parseDouble(this.txtAlto.getText());
-                    }
-                    if (!this.txtAncho.getText().isEmpty()) {
-                        ancho = Double.parseDouble(this.txtAncho.getText());
-                    }
-                    if (!this.txtPeso.getText().isEmpty()) {
-                        peso = Double.parseDouble(this.txtPeso.getText());
-                    }
-                    if (!this.txtValuacion.getText().isEmpty()) {
-                        valuacion = Double.parseDouble(this.txtValuacion.getText());
-                    }
-                    estilo = (Estilo) this.cboEstilo.getSelectedItem();
-                    tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
-                    tematica = (Tematica) this.cboTematica.getSelectedItem();
-                    Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
-                            "La obra se encuentra en deposito para ser asignada a una colección.");
-                    HistorialEstado h = new HistorialEstado(new Date(), e);
-                    historial.add(h);
-
-                    Obra obra = new Obra(nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, sensor, estilo, tecnica, tematica, historial);
-                    System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
-                    dispose();
-                }
-            }
+            JOptionPane.showMessageDialog(rootPane, "No se puedo registrar correctamente la obra en al base de datos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
         }
+
+        dispose();
+
+
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -650,6 +627,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -666,6 +644,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private javax.swing.JTable tableArtista;
     private javax.swing.JTextField txtAlto;
     private javax.swing.JTextField txtAncho;
+    private javax.swing.JTextField txtAño;
     private javax.swing.JTextField txtBuscadorArtista;
     private javax.swing.JTextField txtCodSensor;
     private javax.swing.JTextArea txtDescrip;
@@ -752,7 +731,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         crearFiltro();
         //If current expression doesn't parse, don't update.
         try {
-            sorter.setRowFilter(RowFilter.regexFilter("^" + this.txtBuscadorArtista.getText()));
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + "^" + this.txtBuscadorArtista.getText()));
         } catch (java.util.regex.PatternSyntaxException e) {
             System.out.println("Falla del filtro");
 
@@ -767,8 +746,66 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
      *
      * @param list
      */
-    public void cargarEmpleado(ArrayList<Empleado> list) {
-        int index = (int) Math.random() * 2;
-        this.txtEmpleado.setText(list.get(index).getApellido() + ", " + list.get(index).getNombre());
+    public void cargarEmpleado(Empleado e) {
+
+        this.txtEmpleado.setText(e.getApellido() + ", " + e.getNombre());
+    }
+
+    public Obra generarObra() {
+        String nombre;
+        int fechaCreacion = -1;
+        Date fechaRegistracion;
+        double alto = -1;
+        double ancho = -1;
+        double peso = -1;
+        double valuacion = -1;
+        long sensor;
+        Estilo estilo;
+        Tecnica tecnica;
+        Tematica tematica;
+        ArrayList<HistorialEstado> historial = new ArrayList();
+        Obra obra = null;
+
+        if (this.txtNombreObra.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Debe completar el campo NOMBRE", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (this.txtCodSensor.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+            } else {
+                sensor = Long.parseLong(this.txtCodSensor.getText());
+                if (gestor.validarSensor(sensor)) {
+                    JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR con un código ÚNICO", "Inconsistencia de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    nombre = this.txtNombreObra.getText();
+                    fechaRegistracion = new Date();
+                    if (!this.txtAño.getText().isEmpty()) {
+                        fechaCreacion = Integer.parseInt(this.txtAño.getText());
+                    }                   
+                    if (!this.txtAlto.getText().isEmpty()) {
+                        alto = Double.parseDouble(this.txtAlto.getText());
+                    }
+                    if (!this.txtAncho.getText().isEmpty()) {
+                        ancho = Double.parseDouble(this.txtAncho.getText());
+                    }
+                    if (!this.txtPeso.getText().isEmpty()) {
+                        peso = Double.parseDouble(this.txtPeso.getText());
+                    }
+                    if (!this.txtValuacion.getText().isEmpty()) {
+                        valuacion = Double.parseDouble(this.txtValuacion.getText());
+                    }
+                    estilo = (Estilo) this.cboEstilo.getSelectedItem();
+                    tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
+                    tematica = (Tematica) this.cboTematica.getSelectedItem();
+                    Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
+                            "La obra se encuentra en deposito para ser asignada a una colección.");
+                    HistorialEstado h = new HistorialEstado(new Date(), e);
+                    historial.add(h);
+
+                    obra = new Obra(nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, sensor, estilo, tecnica, tematica, historial);
+                }
+            }
+        }
+
+        return obra;
     }
 }
