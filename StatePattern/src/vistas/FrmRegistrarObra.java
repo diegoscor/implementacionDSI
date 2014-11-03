@@ -535,7 +535,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         Estilo estilo = null;
         Tecnica tecnica = null;
         Tematica tematica = null;
-        ArrayList<HistorialEstado> historial = null;
+        ArrayList<HistorialEstado> historial = new ArrayList();
 
         if (this.txtNombreObra.getText().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Debe completar el campo NOMBRE", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
@@ -546,10 +546,10 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                 nombre = this.txtNombreObra.getText();
                 //fechaCreacion = this.
                 fechaRegistracion = new Date();
-                alto = Double.parseDouble(this.txtAlto.getText());
-                ancho = Double.parseDouble(this.txtAncho.getText());
-                peso = Double.parseDouble(this.txtPeso.getText());
-                valuacion = Double.parseDouble(this.txtValuacion.getText());
+                if(!this.txtAlto.getText().isEmpty()) alto = Double.parseDouble(this.txtAlto.getText());
+                if(!this.txtAncho.getText().isEmpty()) ancho = Double.parseDouble(this.txtAncho.getText());
+                if(!this.txtPeso.getText().isEmpty()) peso = Double.parseDouble(this.txtPeso.getText());
+                if(!this.txtValuacion.getText().isEmpty()) valuacion = Double.parseDouble(this.txtValuacion.getText());
                 sensor = Long.parseLong(this.txtCodSensor.getText());
                 estilo = (Estilo) this.cboEstilo.getSelectedItem();
                 tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
@@ -560,8 +560,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                 historial.add(h);
                 
                 Obra obra = new Obra(nombre,fechaCreacion,fechaRegistracion, alto,ancho,peso,valuacion,sensor,estilo,tecnica,tematica,historial);
+                System.out.println("Se guardo la obra: " + obra.getNombre()+ " con sensor nro: "+ obra.getSensor());
+                
             }
         }
+        dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
