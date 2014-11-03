@@ -23,6 +23,7 @@ public class CtrMenu {
     
     public CtrMenu(){
         frm = new FrmMenu();
+        mdlEmpleado = new ModelEmpleado();
         iniciarFrame();
     }
     

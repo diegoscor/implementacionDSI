@@ -96,4 +96,8 @@ public class CtrRegistrarObra {
          boolean r=mdlRegistrarObra.validarCodigoSensor(sensor);
          return r;
      }
+     
+     public boolean insertarObra(Obra o){
+         return mdlRegistrarObra.insertarObra(o);
+     }
 }

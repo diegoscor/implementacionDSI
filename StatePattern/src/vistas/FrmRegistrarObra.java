@@ -501,8 +501,6 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Calendar date = new GregorianCalendar();
-
-        this.txtEmpleado.setText("Rodriguez, Alberto"); 
         this.txtFecha.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + date.get(Calendar.MONTH) + " - " + date.get(Calendar.YEAR));
     }//GEN-LAST:event_formWindowOpened
 
@@ -539,58 +537,19 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        String nombre;
-        Date fechaCreacion = null;
-        Date fechaRegistracion;
-        double alto = -1;
-        double ancho = -1;
-        double peso = -1;
-        double valuacion = -1;
-        long sensor;
-        Estilo estilo;
-        Tecnica tecnica;
-        Tematica tematica;
-        ArrayList<HistorialEstado> historial = new ArrayList();
 
-        if (this.txtNombreObra.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "Debe completar el campo NOMBRE", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+        Obra obra = this.generarObra();
+        
+        if (gestor.insertarObra(obra)) {
+            System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
+            JOptionPane.showMessageDialog(rootPane, "Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor(), "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            if (this.txtCodSensor.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
-            } else {
-                sensor = Long.parseLong(this.txtCodSensor.getText());
-                if (gestor.validarSensor(sensor)) {
-                    JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR con un código ÚNICO", "Inconsistencia de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    nombre = this.txtNombreObra.getText();
-                    //fechaCreacion = this.
-                    fechaRegistracion = new Date();
-                    if (!this.txtAlto.getText().isEmpty()) {
-                        alto = Double.parseDouble(this.txtAlto.getText());
-                    }
-                    if (!this.txtAncho.getText().isEmpty()) {
-                        ancho = Double.parseDouble(this.txtAncho.getText());
-                    }
-                    if (!this.txtPeso.getText().isEmpty()) {
-                        peso = Double.parseDouble(this.txtPeso.getText());
-                    }
-                    if (!this.txtValuacion.getText().isEmpty()) {
-                        valuacion = Double.parseDouble(this.txtValuacion.getText());
-                    }
-                    estilo = (Estilo) this.cboEstilo.getSelectedItem();
-                    tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
-                    tematica = (Tematica) this.cboTematica.getSelectedItem();
-                    Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
-                            "La obra se encuentra en deposito para ser asignada a una colección.");
-                    HistorialEstado h = new HistorialEstado(new Date(), e);
-                    historial.add(h);
-
-                    Obra obra = new Obra(nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, sensor, estilo, tecnica, tematica, historial);
-                    System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
-                    dispose();
-                }
-            }
+            JOptionPane.showMessageDialog(rootPane, "No se puedo registrar correctamente la obra en al base de datos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
         }
+
+        dispose();
+
+
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
@@ -771,7 +730,63 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
      * @param list
      */
     public void cargarEmpleado(Empleado e) {
-        
+
         this.txtEmpleado.setText(e.getApellido() + ", " + e.getNombre());
+    }
+
+    public Obra generarObra() {
+        String nombre;
+        Date fechaCreacion = null;
+        Date fechaRegistracion;
+        double alto = -1;
+        double ancho = -1;
+        double peso = -1;
+        double valuacion = -1;
+        long sensor;
+        Estilo estilo;
+        Tecnica tecnica;
+        Tematica tematica;
+        ArrayList<HistorialEstado> historial = new ArrayList();
+        Obra obra = null;
+
+        if (this.txtNombreObra.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Debe completar el campo NOMBRE", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (this.txtCodSensor.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+            } else {
+                sensor = Long.parseLong(this.txtCodSensor.getText());
+                if (gestor.validarSensor(sensor)) {
+                    JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR con un código ÚNICO", "Inconsistencia de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    nombre = this.txtNombreObra.getText();
+                    //fechaCreacion = this.
+                    fechaRegistracion = new Date();
+                    if (!this.txtAlto.getText().isEmpty()) {
+                        alto = Double.parseDouble(this.txtAlto.getText());
+                    }
+                    if (!this.txtAncho.getText().isEmpty()) {
+                        ancho = Double.parseDouble(this.txtAncho.getText());
+                    }
+                    if (!this.txtPeso.getText().isEmpty()) {
+                        peso = Double.parseDouble(this.txtPeso.getText());
+                    }
+                    if (!this.txtValuacion.getText().isEmpty()) {
+                        valuacion = Double.parseDouble(this.txtValuacion.getText());
+                    }
+                    estilo = (Estilo) this.cboEstilo.getSelectedItem();
+                    tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
+                    tematica = (Tematica) this.cboTematica.getSelectedItem();
+                    Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
+                            "La obra se encuentra en deposito para ser asignada a una colección.");
+                    HistorialEstado h = new HistorialEstado(new Date(), e);
+                    historial.add(h);
+
+                    obra = new Obra(nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, sensor, estilo, tecnica, tematica, historial);
+                }
+            }
+        }
+
+        return obra;
     }
 }

@@ -13,6 +13,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import objetos.Obra;
 
 /**
  *
@@ -95,5 +96,9 @@ public class ModelRegistrarObra extends Conexion {
             Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
         }
         return r;
+    }
+    
+    public boolean insertarObra(Obra o){
+        return true;
     }
 }
