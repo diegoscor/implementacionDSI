@@ -103,7 +103,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtValuacion = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtSensor = new javax.swing.JLabel();
+        txtCodSensor = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listImagenes = new javax.swing.JList();
@@ -200,6 +200,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         });
 
         btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         tableArtista.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -216,8 +221,6 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         jLabel14.setText("Valuación (US$):");
 
         jLabel15.setText("Código Sensor:");
-
-        txtSensor.setText("diplay_codigoSensor");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -276,7 +279,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                             .addComponent(txtAlto)
                             .addComponent(txtAncho)
                             .addComponent(txtPeso)
-                            .addComponent(txtSensor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(txtCodSensor))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -325,7 +328,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     .addComponent(jLabel14)
                     .addComponent(txtValuacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(txtSensor))
+                    .addComponent(txtCodSensor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -549,40 +552,47 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         if (this.txtNombreObra.getText().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Debe completar el campo NOMBRE", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
         } else {
-            if ("0".equals(this.txtSensor.getText())) {
-                JOptionPane.showMessageDialog(rootPane, "Error de DB con el CODIGO SENSOR", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+            if (this.txtCodSensor.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR", "Falta de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
             } else {
-                nombre = this.txtNombreObra.getText();
-                //fechaCreacion = this.
-                fechaRegistracion = new Date();
-                if(!this.txtAlto.getText().isEmpty()) {
-                    alto = Double.parseDouble(this.txtAlto.getText());
+                sensor = Long.parseLong(this.txtCodSensor.getText());
+                if (gestor.validarSensor(sensor)) {
+                    JOptionPane.showMessageDialog(rootPane, "Debe completar el campo CODIGO SENSOR con un código ÚNICO", "Inconsistencia de Datos Obligatorios", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    nombre = this.txtNombreObra.getText();
+                    //fechaCreacion = this.
+                    fechaRegistracion = new Date();
+                    if (!this.txtAlto.getText().isEmpty()) {
+                        alto = Double.parseDouble(this.txtAlto.getText());
+                    }
+                    if (!this.txtAncho.getText().isEmpty()) {
+                        ancho = Double.parseDouble(this.txtAncho.getText());
+                    }
+                    if (!this.txtPeso.getText().isEmpty()) {
+                        peso = Double.parseDouble(this.txtPeso.getText());
+                    }
+                    if (!this.txtValuacion.getText().isEmpty()) {
+                        valuacion = Double.parseDouble(this.txtValuacion.getText());
+                    }
+                    estilo = (Estilo) this.cboEstilo.getSelectedItem();
+                    tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
+                    tematica = (Tematica) this.cboTematica.getSelectedItem();
+                    Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
+                            "La obra se encuentra en deposito para ser asignada a una colección.");
+                    HistorialEstado h = new HistorialEstado(new Date(), e);
+                    historial.add(h);
+
+                    Obra obra = new Obra(nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, sensor, estilo, tecnica, tematica, historial);
+                    System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
+                    dispose();
                 }
-                if(!this.txtAncho.getText().isEmpty()) {
-                    ancho = Double.parseDouble(this.txtAncho.getText());
-                }
-                if(!this.txtPeso.getText().isEmpty()) {
-                    peso = Double.parseDouble(this.txtPeso.getText());
-                }
-                if(!this.txtValuacion.getText().isEmpty()) {
-                    valuacion = Double.parseDouble(this.txtValuacion.getText());
-                }
-                sensor = Long.parseLong(this.txtSensor.getText());
-                estilo = (Estilo) this.cboEstilo.getSelectedItem();
-                tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
-                tematica = (Tematica) this.cboTematica.getSelectedItem();
-                Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
-                        "La obrea se encuentra en deposito para ser asignada a una colección.");
-                HistorialEstado h = new HistorialEstado(new Date(),e);
-                historial.add(h);
-                
-                Obra obra = new Obra(nombre,fechaCreacion,fechaRegistracion, alto,ancho,peso,valuacion,sensor,estilo,tecnica,tematica,historial);
-                System.out.println("Se guardo la obra: " + obra.getNombre()+ " con sensor nro: "+ obra.getSensor());
-                
             }
         }
-        dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        JOptionPane.showMessageDialog(null, "Se llama al CU N° 5 Registrar Artista", "Caso de Uso de Extensión", JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -657,12 +667,12 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private javax.swing.JTextField txtAlto;
     private javax.swing.JTextField txtAncho;
     private javax.swing.JTextField txtBuscadorArtista;
+    private javax.swing.JTextField txtCodSensor;
     private javax.swing.JTextArea txtDescrip;
     private javax.swing.JLabel txtEmpleado;
     private javax.swing.JLabel txtFecha;
     private javax.swing.JTextField txtNombreObra;
     private javax.swing.JTextField txtPeso;
-    private javax.swing.JLabel txtSensor;
     private javax.swing.JTextField txtValuacion;
     // End of variables declaration//GEN-END:variables
     private CtrRegistrarObra gestor;
@@ -672,7 +682,6 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     public void setManejador(CtrRegistrarObra c) {
         gestor = c;
     }
-
 
     /**
      * El SelectedIndex vendría de la operación que llama al CU Registrar Obra,
@@ -749,19 +758,17 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         }
     }
-    
+
     /**
-     * Debido a que no reflejamos la logica del Inicio de Sesión sino sólo el CU Registrar Obra, se utiliza 
-     * un random para seleccionar el empleado dado que esta información la proveería el sistema mediante
-     * los datos utilizados durante el logueo. 
-     * @param list 
+     * Debido a que no reflejamos la logica del Inicio de Sesión sino sólo el CU
+     * Registrar Obra, se utiliza un random para seleccionar el empleado dado
+     * que esta información la proveería el sistema mediante los datos
+     * utilizados durante el logueo.
+     *
+     * @param list
      */
-    public void cargarEmpleado(ArrayList<Empleado> list){
-        int index=(int)Math.random() * 3;
-        this.txtEmpleado.setText(list.get(index).getApellido()+", "+list.get(index).getNombre());
-    }
-    
-    public void cargarSensor(int codigoSensor){
-        this.txtSensor.setText(""+codigoSensor);
+    public void cargarEmpleado(ArrayList<Empleado> list) {
+        int index = (int) Math.random() * 2;
+        this.txtEmpleado.setText(list.get(index).getApellido() + ", " + list.get(index).getNombre());
     }
 }

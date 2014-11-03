@@ -253,7 +253,7 @@
                                   <Component id="txtAlto" max="32767" attributes="0"/>
                                   <Component id="txtAncho" max="32767" attributes="0"/>
                                   <Component id="txtPeso" max="32767" attributes="0"/>
-                                  <Component id="txtSensor" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtCodSensor" alignment="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -318,7 +318,7 @@
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtValuacion" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtSensor" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtCodSensor" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -413,6 +413,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Registrar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane2">
               <AuxValues>
@@ -453,10 +456,7 @@
                 <Property name="text" type="java.lang.String" value="C&#xf3;digo Sensor:"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JLabel" name="txtSensor">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="diplay_codigoSensor"/>
-              </Properties>
+            <Component class="javax.swing.JTextField" name="txtCodSensor">
             </Component>
           </SubComponents>
         </Container>

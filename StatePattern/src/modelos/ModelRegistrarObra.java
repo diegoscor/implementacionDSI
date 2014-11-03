@@ -82,18 +82,18 @@ public class ModelRegistrarObra extends Conexion {
         return data;
     }
     
-    public int obtenerCodigoSensor() {
-        sql ="SELECT MAX(sensor) FROM Obra";
+    public boolean validarCodigoSensor(long sensor) {
+        sql ="SELECT sensor FROM Obra WHERE sensor="+sensor;
         
-        int codigoSensor=-1;
+        boolean r=false;
         ResultSet rs = super.ejecutarConsulta(sql);
         try {
             while(rs.next()){
-                codigoSensor=rs.getInt(1);
+                r=true;
             }
         } catch (SQLException ex) {
             Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return codigoSensor+1;
+        return r;
     }
 }

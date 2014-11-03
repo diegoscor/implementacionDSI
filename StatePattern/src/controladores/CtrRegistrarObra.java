@@ -64,7 +64,6 @@ public class CtrRegistrarObra {
         this.cargarComboTematica();
         this.cargarComboTipoIngreso();
         this.cargarGrilla();
-        this.cargarSensor();
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
     }
@@ -99,9 +98,8 @@ public class CtrRegistrarObra {
          frm.cargarGrilla(mdlGrilla);
      }
      
-     private void cargarSensor(){
-         int codigoSensor= mdlRegistrarObra.obtenerCodigoSensor();
-         frm.cargarSensor(codigoSensor);
+     public boolean validarSensor(long sensor){
+         boolean r=mdlRegistrarObra.validarCodigoSensor(sensor);
+         return r;
      }
-     
 }
