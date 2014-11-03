@@ -8,6 +8,7 @@ package modelos;
 import conexion.Conexion;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -41,6 +42,7 @@ public class ModelRegistrarObra extends Conexion {
         long sensor = o.getSensor();
         String nombre = o.getNombre();
         Date fechaRegistracion = o.getFechaRegistracion();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int tipoIngreso=o.getTipoIngreso().getId();
         String empleadoReg = o.getEmpleadoReg().getCuit();
         ArrayList<HistorialEstado> historial = o.getHistorial();
@@ -51,7 +53,8 @@ public class ModelRegistrarObra extends Conexion {
         try {
             System.out.println("Entro a escribir");
             sql = "INSERT INTO Obra (sensor, nombre, fechaRegistracion, idTipoIngreso, idEmpleado) ";
-            sql += " VALUES(" + sensor + ", '" + nombre + "', " + fechaRegistracion +", "+ tipoIngreso + ", '" + empleadoReg + "')";
+            sql += " VALUES(" + sensor + ", '" + nombre + "', '" + dateFormat.format(fechaRegistracion) +"', "+ tipoIngreso + ", '" + empleadoReg + "')";
+            System.out.println("La sentencia sql es : "+ sql);
             super.hacerPersistente(sql);
             addEstilo(o);
             addTecnica(o);
@@ -66,11 +69,13 @@ public class ModelRegistrarObra extends Conexion {
             for (int i = 0; i < imagenes.size(); i++) {
                 String p = imagenes.get(i);
                 sql = "INSERT INTO Imagen (ruta, idObra) VALUES( '" + p + "'," + sensor + ")";
+                System.out.println("La otra sentencia sql es: " + sql);
                 super.hacerPersistente(sql);
             }
             System.out.println("escribo historial");
             sql = "INSERT INTO HistorialEstado (fecha, nombreEstado, sensorObra) ";
             sql += " VALUES('" + fechaRegistracion + "', '" + e + "', " + sensor;
+            System.out.println("La ultima sentencia sql es: " + sql);
             super.hacerPersistente(sql);
             return true;
         } catch (SQLException ex) {
