@@ -32,6 +32,10 @@ public class Estilo {
     public String getDescripcion() {
         return descripcion;
     }
+
+    public int getId() {
+        return id;
+    }
     
     
 }

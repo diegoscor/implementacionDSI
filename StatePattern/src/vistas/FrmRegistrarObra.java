@@ -33,6 +33,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import objetos.Artista;
 import objetos.Empleado;
 import objetos.Estado;
 import objetos.Estilo;
@@ -548,21 +549,26 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        gestor.cerrarCnx();
         dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 
         Obra obra = this.generarObra();
-        
+        if(obra!=null){
         if (gestor.insertarObra(obra)) {
             System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
             JOptionPane.showMessageDialog(rootPane, "Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor(), "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(rootPane, "No se puedo registrar correctamente la obra en al base de datos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
         }
-
+        gestor.cerrarCnx();
         dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(rootPane, "Error en la creación del objeto Obra", "Error de generación",JOptionPane.ERROR_MESSAGE);
+        }
 
 
     }//GEN-LAST:event_btnAceptarActionPerformed
@@ -656,6 +662,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private CtrRegistrarObra gestor;
     private TableRowSorter<TableModel> sorter;
+    private Empleado empleadoSesion;
     DefaultListModel mdlList = new DefaultListModel();
 
     public void setManejador(CtrRegistrarObra c) {
@@ -747,7 +754,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
      * @param list
      */
     public void cargarEmpleado(Empleado e) {
-
+        empleadoSesion = e;
         this.txtEmpleado.setText(e.getApellido() + ", " + e.getNombre());
     }
 
@@ -763,7 +770,10 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         Estilo estilo;
         Tecnica tecnica;
         Tematica tematica;
+        Artista artista;
+        TipoIngreso tipoIngreso;
         ArrayList<HistorialEstado> historial = new ArrayList();
+        ArrayList<String> imagenes=new ArrayList();
         Obra obra = null;
 
         if (this.txtNombreObra.getText().isEmpty()) {
@@ -780,7 +790,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     fechaRegistracion = new Date();
                     if (!this.txtAño.getText().isEmpty()) {
                         fechaCreacion = Integer.parseInt(this.txtAño.getText());
-                    }                   
+                    }
                     if (!this.txtAlto.getText().isEmpty()) {
                         alto = Double.parseDouble(this.txtAlto.getText());
                     }
@@ -796,16 +806,24 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     estilo = (Estilo) this.cboEstilo.getSelectedItem();
                     tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
                     tematica = (Tematica) this.cboTematica.getSelectedItem();
-                    Estado e = new PendienteDeAsignacion("Pendiente de Asignacion",
+                    artista = gestor.armarArtista((int) this.tableArtista.getValueAt(this.tableArtista.getSelectedRow(), 1));
+                    tipoIngreso = (TipoIngreso) this.cboTipoIngreso.getSelectedItem();
+                    Estado e = new PendienteDeAsignacion("Pendiente De Asignacion",
                             "La obra se encuentra en deposito para ser asignada a una colección.");
                     HistorialEstado h = new HistorialEstado(new Date(), e);
                     historial.add(h);
+                    int cantImg = this.listImagenes.getModel().getSize();
+                    if (cantImg > 0) {
+                        for (int i = 0; i < cantImg; i++) {
+                            String s=this.listImagenes.getModel().getElementAt(i).toString();
+                            imagenes.add(s);
+                        }
 
-                    obra = new Obra(nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, sensor, estilo, tecnica, tematica, historial);
+                        obra = new Obra(sensor, nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, estilo, tecnica, tematica, artista, tipoIngreso, empleadoSesion, historial, imagenes);
+                    }
                 }
             }
         }
-
         return obra;
     }
 }

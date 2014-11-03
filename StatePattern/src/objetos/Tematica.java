@@ -26,6 +26,10 @@ public class Tematica {
     public String getNombre() {
         return nombre;
     }
+
+    public int getId() {
+        return id;
+    }
     
     
 }

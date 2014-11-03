@@ -28,6 +28,10 @@ public class Tecnica {
         return nombre;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getDescripcion() {
         return descripcion;
     }

@@ -17,6 +17,7 @@ public class PendienteDeRestauracion extends Estado {
         super(nombre, descripcion);
     }
     
+    @Override
     public void enviarRestaurar(){
         //EnRestauracion
     }

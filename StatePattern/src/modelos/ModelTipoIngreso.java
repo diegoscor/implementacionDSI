@@ -54,4 +54,5 @@ public class ModelTipoIngreso extends Conexion {
 
         return e;
     }
+    
 }

@@ -182,7 +182,7 @@ public class FrmMenu extends javax.swing.JFrame {
     }
     
     public void cargarEmpleado(ArrayList<Empleado> list) {
-        int index = (int) Math.random() * 2;
+        int index = (int) Math.random() * 3;
         empleado = list.get(index);
         this.txtEmpleado.setText(empleado.getApellido() + ", " + empleado.getNombre());
     }

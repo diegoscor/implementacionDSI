@@ -7,12 +7,14 @@ package controladores;
 
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import modelos.ModelArtista;
 import modelos.ModelEmpleado;
 import modelos.ModelEstilo;
 import modelos.ModelRegistrarObra;
 import modelos.ModelTecnica;
 import modelos.ModelTematica;
 import modelos.ModelTipoIngreso;
+import objetos.Artista;
 import objetos.Empleado;
 import objetos.Estilo;
 import objetos.Obra;
@@ -35,11 +37,13 @@ public class CtrRegistrarObra {
     private ModelTipoIngreso mdlTipoIngreso;
     private ModelRegistrarObra mdlRegistrarObra;
     private ModelEmpleado mdlEmpleado;
+    private ModelArtista mdlArtista;
     
     public CtrRegistrarObra(Empleado e){
         mdlTecnica = new ModelTecnica();
         mdlTematica = new ModelTematica();
         mdlEstilo = new ModelEstilo();
+        mdlArtista=new ModelArtista();
         mdlRegistrarObra = new ModelRegistrarObra();
         mdlTipoIngreso= new ModelTipoIngreso();
         mdlEmpleado=new ModelEmpleado();
@@ -88,7 +92,7 @@ public class CtrRegistrarObra {
      }
      
      private void cargarGrilla(){
-         DefaultTableModel mdlGrilla = mdlRegistrarObra.obtenerModeloGrilla();
+         DefaultTableModel mdlGrilla = mdlArtista.obtenerModeloGrilla();
          frm.cargarGrilla(mdlGrilla);
      }
      
@@ -97,7 +101,15 @@ public class CtrRegistrarObra {
          return r;
      }
      
+     public Artista armarArtista(int idArtista){
+         return mdlArtista.obtenerArtista(idArtista);
+     }
+     
      public boolean insertarObra(Obra o){
          return mdlRegistrarObra.insertarObra(o);
+     }
+ 
+     public void cerrarCnx(){
+         mdlRegistrarObra.cerrarCnx();
      }
 }

@@ -36,6 +36,10 @@ public class Artista {
         this.telefono = telefono;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getAntecedente() {
         return antecedente;
     }
