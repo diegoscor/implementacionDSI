@@ -28,7 +28,7 @@ import vistas.FrmRegistrarObra;
 public class CtrRegistrarObra {
     
     private FrmRegistrarObra frm;
-    private Obra obra;
+    private Empleado empleado;
     private ModelTecnica mdlTecnica;
     private ModelTematica mdlTematica;
     private ModelEstilo mdlEstilo;
@@ -36,7 +36,7 @@ public class CtrRegistrarObra {
     private ModelRegistrarObra mdlRegistrarObra;
     private ModelEmpleado mdlEmpleado;
     
-    public CtrRegistrarObra(){
+    public CtrRegistrarObra(Empleado e){
         mdlTecnica = new ModelTecnica();
         mdlTematica = new ModelTematica();
         mdlEstilo = new ModelEstilo();
@@ -44,15 +44,8 @@ public class CtrRegistrarObra {
         mdlTipoIngreso= new ModelTipoIngreso();
         mdlEmpleado=new ModelEmpleado();
         frm = new FrmRegistrarObra();
+        empleado = e;
         iniciarFrame();
-    }
-    
-    public void setObra(Obra o){
-        obra = o;
-    }
-    
-    public Obra getObra(){
-        return obra;
     }
     
     public void iniciarFrame(){
@@ -64,8 +57,10 @@ public class CtrRegistrarObra {
         this.cargarComboTematica();
         this.cargarComboTipoIngreso();
         this.cargarGrilla();
+        this.cargarEmpleado();
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
+        
     }
     
      private void cargarComboEstilo(){
@@ -88,9 +83,8 @@ public class CtrRegistrarObra {
         frm.cargarComboBoxTipoIngreso(list);
     }
      
-     private void cargarEmpleado(){
-         ArrayList<Empleado> list =mdlEmpleado.obtenerTodos();
-         frm.cargarEmpleado(list);
+     private void cargarEmpleado(){         
+         frm.cargarEmpleado(empleado);
      }
      
      private void cargarGrilla(){

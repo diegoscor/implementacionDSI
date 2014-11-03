@@ -114,12 +114,15 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         btnAceptar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registrar Obra");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
         });
+
+        jPanel1.setToolTipText("");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Sistema"));
 
@@ -131,7 +134,6 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         txtFecha.setText("display_fecha");
 
-        cboTipoIngreso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboTipoIngreso.setFocusable(false);
 
         txtEmpleado.setText("display_nombreEmpleado");
@@ -292,8 +294,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     .addComponent(cboEstilo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtBuscadorArtista, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRegistrar))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
@@ -306,7 +308,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(txtNombreObra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
@@ -500,6 +502,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         Calendar date = new GregorianCalendar();
 
+        this.txtEmpleado.setText("Rodriguez, Alberto"); 
         this.txtFecha.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + date.get(Calendar.MONTH) + " - " + date.get(Calendar.YEAR));
     }//GEN-LAST:event_formWindowOpened
 
@@ -752,7 +755,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         crearFiltro();
         //If current expression doesn't parse, don't update.
         try {
-            sorter.setRowFilter(RowFilter.regexFilter("^" + this.txtBuscadorArtista.getText()));
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + "^" + this.txtBuscadorArtista.getText()));
         } catch (java.util.regex.PatternSyntaxException e) {
             System.out.println("Falla del filtro");
 
@@ -767,8 +770,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
      *
      * @param list
      */
-    public void cargarEmpleado(ArrayList<Empleado> list) {
-        int index = (int) Math.random() * 2;
-        this.txtEmpleado.setText(list.get(index).getApellido() + ", " + list.get(index).getNombre());
+    public void cargarEmpleado(Empleado e) {
+        
+        this.txtEmpleado.setText(e.getApellido() + ", " + e.getNombre());
     }
 }

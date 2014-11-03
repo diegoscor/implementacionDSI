@@ -1,6 +1,6 @@
 package principal;
 
-import controladores.CtrRegistrarObra;
+import controladores.CtrMenu;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,7 +18,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        CtrRegistrarObra ctr = new CtrRegistrarObra();
+        CtrMenu ctr = new CtrMenu();
         
     }
     
