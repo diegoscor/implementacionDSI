@@ -14,9 +14,9 @@ import java.util.Date;
  */
 public class Obra {
     
-    private int id;
+    private int id,fechaCreacion;
     private String nombre;
-    private Date fechaCreacion, fechaRegistracion;
+    private Date fechaRegistracion;
     private double alto, ancho, peso, valuacion;
     private long sensor;
     private Estilo estilo;
@@ -24,7 +24,7 @@ public class Obra {
     private Tematica tematica;
     private ArrayList<HistorialEstado> historial;
     
-    public Obra(int id,String nombre, Date fechaCreacion, Date fechaRegistracion, double alto, double ancho, double peso, double valuacion, long sensor, Estilo estilo, Tecnica tecnica, Tematica tematica, ArrayList<HistorialEstado> historial) {
+    public Obra(int id,String nombre, int fechaCreacion, Date fechaRegistracion, double alto, double ancho, double peso, double valuacion, long sensor, Estilo estilo, Tecnica tecnica, Tematica tematica, ArrayList<HistorialEstado> historial) {
         this.id = id;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
@@ -40,7 +40,7 @@ public class Obra {
         this.historial = historial;
     }
 
-    public Obra(String nombre, Date fechaCreacion, Date fechaRegistracion, double alto, double ancho, double peso, double valuacion, long sensor, Estilo estilo, Tecnica tecnica, Tematica tematica, ArrayList<HistorialEstado> historial) {
+    public Obra(String nombre, int fechaCreacion, Date fechaRegistracion, double alto, double ancho, double peso, double valuacion, long sensor, Estilo estilo, Tecnica tecnica, Tematica tematica, ArrayList<HistorialEstado> historial) {
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaRegistracion = fechaRegistracion;
@@ -59,7 +59,7 @@ public class Obra {
         return nombre;
     }
 
-    public Date getFechaCreacion() {
+    public int getFechaCreacion() {
         return fechaCreacion;
     }
 
