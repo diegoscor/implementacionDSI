@@ -5,6 +5,7 @@
  */
 package vistas;
 
+import controladores.CtrListadoObras;
 import controladores.CtrMenu;
 import controladores.CtrRegistrarObra;
 import java.util.ArrayList;
@@ -16,8 +17,6 @@ import objetos.Empleado;
  */
 public class FrmMenu extends javax.swing.JFrame {
 
-    CtrMenu gestor;
-    Empleado empleado;
     /**
      * Creates new form frmMenu
      */
@@ -58,6 +57,11 @@ public class FrmMenu extends javax.swing.JFrame {
         });
 
         btnListarObras.setText("Listar Obras");
+        btnListarObras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarObrasActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Salir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -132,6 +136,10 @@ public class FrmMenu extends javax.swing.JFrame {
         CtrRegistrarObra c = new CtrRegistrarObra(empleado);
     }//GEN-LAST:event_btnRegistrarObraActionPerformed
 
+    private void btnListarObrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarObrasActionPerformed
+        CtrListadoObras l = new CtrListadoObras();
+    }//GEN-LAST:event_btnListarObrasActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -177,10 +185,13 @@ public class FrmMenu extends javax.swing.JFrame {
     private javax.swing.JLabel txtEmpleado;
     // End of variables declaration//GEN-END:variables
 
-    public void setManejador(CtrMenu c){
+    CtrMenu gestor;
+    Empleado empleado;
+
+    public void setManejador(CtrMenu c) {
         gestor = c;
     }
-    
+
     public void cargarEmpleado(ArrayList<Empleado> list) {
         int index = (int) Math.random() * 3;
         empleado = list.get(index);
