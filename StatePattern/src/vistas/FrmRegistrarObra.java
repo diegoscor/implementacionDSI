@@ -29,12 +29,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import objetos.Empleado;
 import objetos.Estilo;
 import objetos.Tecnica;
 import objetos.Tematica;
+import objetos.TipoIngreso;
 import utils.ComboRendererEstilo;
 import utils.ComboRendererTecnica;
 import utils.ComboRendererTematica;
+import utils.ComboRendererTipoIngreso;
 
 /**
  *
@@ -43,6 +46,7 @@ import utils.ComboRendererTematica;
 public class FrmRegistrarObra extends javax.swing.JFrame {
 
     private static DefaultTableModel modelo;
+
     /**
      * Creates new form frmRegistrarObra
      */
@@ -63,10 +67,10 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtNombreEmpleado = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtFecha = new javax.swing.JLabel();
-        txtTipoIngreso = new javax.swing.JTextField();
+        cboTipoIngreso = new javax.swing.JComboBox();
+        txtEmpleado = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -93,7 +97,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtValuacion = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtCodSensor = new javax.swing.JTextField();
+        txtSensor = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         listImagenes = new javax.swing.JList();
@@ -113,13 +117,18 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Sistema"));
 
-        jLabel1.setText("Nombre Empleado");
+        jLabel1.setText("Nombre Empleado: ");
 
-        jLabel2.setText("Tipo Ingreso");
+        jLabel2.setText("Tipo Ingreso: ");
 
         jLabel3.setText("Fecha del Sistema: ");
 
         txtFecha.setText("display_fecha");
+
+        cboTipoIngreso.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTipoIngreso.setFocusable(false);
+
+        txtEmpleado.setText("display_nombreEmpleado");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -127,18 +136,18 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtNombreEmpleado)
-                    .addComponent(txtTipoIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
+                    .addComponent(cboTipoIngreso, 0, 255, Short.MAX_VALUE)
+                    .addComponent(txtEmpleado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtFecha)
-                .addContainerGap())
+                .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,33 +155,33 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtNombreEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(txtFecha))
+                    .addComponent(txtFecha)
+                    .addComponent(txtEmpleado))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtTipoIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(cboTipoIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos de la Obra"));
 
-        jLabel5.setText("Estilo");
+        jLabel5.setText("Estilo:");
 
-        jLabel6.setText("Técnica");
+        jLabel6.setText("Técnica:");
 
         jLabel7.setText("Artista");
 
-        jLabel8.setText("Temática");
+        jLabel8.setText("Temática:");
 
-        jLabel9.setText("Nombre");
+        jLabel9.setText("Nombre:");
 
-        jLabel10.setText("Descripcion");
+        jLabel10.setText("Descripcion:");
 
-        jLabel11.setText("Alto");
+        jLabel11.setText("Alto (mm):");
 
-        jLabel12.setText("Ancho");
+        jLabel12.setText("Ancho (mm):");
 
         txtDescrip.setColumns(20);
         txtDescrip.setRows(5);
@@ -196,11 +205,13 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tableArtista);
 
-        jLabel13.setText("Peso");
+        jLabel13.setText("Peso (mg):");
 
-        jLabel14.setText("Valuación");
+        jLabel14.setText("Valuación (US$):");
 
-        jLabel15.setText("Código Sensor");
+        jLabel15.setText("Código Sensor:");
+
+        txtSensor.setText("diplay_codigoSensor");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -208,59 +219,59 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(25, 25, 25)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cboEstilo, 0, 235, Short.MAX_VALUE)
-                            .addComponent(cboTecnica, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jLabel5)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(18, 18, 18)
-                        .addComponent(cboTematica, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
                             .addComponent(jLabel10))
-                        .addGap(10, 10, 10)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(txtNombreObra)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jScrollPane1))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addComponent(txtNombreObra))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
+                        .addComponent(jLabel8)
                         .addGap(18, 18, 18)
-                        .addComponent(txtValuacion, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtAncho))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
-                        .addGap(25, 25, 25)
-                        .addComponent(txtPeso))
+                        .addComponent(cboTematica, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtBuscadorArtista, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnRegistrar))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel6)
+                                .addGap(25, 25, 25)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cboEstilo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cboTecnica, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel5)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(29, 29, 29)
-                                .addComponent(txtAlto)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jLabel14)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtValuacion, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel15)
+                        .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCodSensor)))
-                .addContainerGap())
+                        .addComponent(txtBuscadorArtista, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRegistrar))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel15))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtAlto)
+                            .addComponent(txtAncho)
+                            .addComponent(txtPeso)
+                            .addComponent(txtSensor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -308,7 +319,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                     .addComponent(jLabel14)
                     .addComponent(txtValuacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15)
-                    .addComponent(txtCodSensor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSensor))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -393,17 +404,16 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancelar)
-                    .addComponent(btnAceptar))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAceptar)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -417,8 +427,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -474,9 +484,9 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     }//GEN-LAST:event_listImagenesValueChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       Calendar date = new GregorianCalendar();
+        Calendar date = new GregorianCalendar();
 
-       this.txtFecha.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + date.get(Calendar.MONTH) + " - " + date.get(Calendar.YEAR));
+        this.txtFecha.setText(date.get(Calendar.DAY_OF_MONTH) + " - " + date.get(Calendar.MONTH) + " - " + date.get(Calendar.YEAR));
     }//GEN-LAST:event_formWindowOpened
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
@@ -546,7 +556,6 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnAgregar;
@@ -557,6 +566,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private javax.swing.JComboBox cboEstilo;
     private javax.swing.JComboBox cboTecnica;
     private javax.swing.JComboBox cboTematica;
+    private javax.swing.JComboBox cboTipoIngreso;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -583,58 +593,76 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private javax.swing.JTextField txtAlto;
     private javax.swing.JTextField txtAncho;
     private javax.swing.JTextField txtBuscadorArtista;
-    private javax.swing.JTextField txtCodSensor;
     private javax.swing.JTextArea txtDescrip;
+    private javax.swing.JLabel txtEmpleado;
     private javax.swing.JLabel txtFecha;
-    private javax.swing.JTextField txtNombreEmpleado;
     private javax.swing.JTextField txtNombreObra;
     private javax.swing.JTextField txtPeso;
-    private javax.swing.JTextField txtTipoIngreso;
+    private javax.swing.JLabel txtSensor;
     private javax.swing.JTextField txtValuacion;
     // End of variables declaration//GEN-END:variables
-
     private CtrRegistrarObra gestor;
     private TableRowSorter<TableModel> sorter;
     DefaultListModel mdlList = new DefaultListModel();
-    
-    public void setManejador(CtrRegistrarObra c){
+
+    public void setManejador(CtrRegistrarObra c) {
         gestor = c;
     }
-    
-    public void cargarComboBoxEtilo(ArrayList<Estilo> list){
+
+    /**
+     * El SelectedIndex vendría de la operación que llama al CU Registrar Obra,
+     * esta solucion se implementa únicamente para poder mostrar el
+     * funcionamiento del CU Registrar Obra, no de Registrar Donación, Registrar
+     * Compra u otro CU.
+     */
+    public void cargarComboBoxTipoIngreso(ArrayList<TipoIngreso> list) {
+        DefaultComboBoxModel mdlc = new DefaultComboBoxModel();
+        for (TipoIngreso list1 : list) {
+            mdlc.addElement(list1);
+        }
+        this.cboTipoIngreso.setModel(mdlc);
+        this.cboTipoIngreso.setRenderer(new ComboRendererTipoIngreso());
+        this.cboTipoIngreso.setSelectedIndex((int) (Math.random() * 3));
+        this.cboTipoIngreso.setEnabled(false);
+    }
+
+    public void cargarComboBoxEstilo(ArrayList<Estilo> list) {
         DefaultComboBoxModel mdlc = new DefaultComboBoxModel();
         for (Estilo list1 : list) {
             mdlc.addElement(list1);
         }
         this.cboEstilo.setModel(mdlc);
         this.cboEstilo.setRenderer(new ComboRendererEstilo());
+        this.cboEstilo.setSelectedIndex(-1);
     }
-    
-    public void cargarComboBoxTecnica(ArrayList<Tecnica> list){
+
+    public void cargarComboBoxTecnica(ArrayList<Tecnica> list) {
         DefaultComboBoxModel mdlc = new DefaultComboBoxModel();
         for (Tecnica list1 : list) {
             mdlc.addElement(list1);
         }
-        this.cboEstilo.setModel(mdlc);
-        this.cboEstilo.setRenderer(new ComboRendererTecnica());
+        this.cboTecnica.setModel(mdlc);
+        this.cboTecnica.setRenderer(new ComboRendererTecnica());
+        this.cboTecnica.setSelectedIndex(-1);
     }
-    
-    public void cargarComboBoxTematica(ArrayList<Tematica> list){
+
+    public void cargarComboBoxTematica(ArrayList<Tematica> list) {
         DefaultComboBoxModel mdlc = new DefaultComboBoxModel();
         for (Tematica list1 : list) {
             mdlc.addElement(list1);
         }
-        this.cboEstilo.setModel(mdlc);
-        this.cboEstilo.setRenderer(new ComboRendererTematica());
+        this.cboTematica.setModel(mdlc);
+        this.cboTematica.setRenderer(new ComboRendererTematica());
+        this.cboTematica.setSelectedIndex(-1);
     }
-    
-    
-    public void cargarGrilla(DefaultTableModel mdl){
+
+    public void cargarGrilla(DefaultTableModel mdl) {
         this.tableArtista.setModel(mdl);
     }
-    
+
     /**
-     * Método que crea el filtro para buscar en la grilla ya sean palabras, archivos, frecuencias o id.
+     * Método que crea el filtro para buscar en la grilla ya sean palabras,
+     * archivos, frecuencias o id.
      */
     public void crearFiltro() {
         TableModel model = tableArtista.getModel();
@@ -643,7 +671,8 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     }
 
     /**
-     * Método que establece que el filtro actuará acorde a la información del TextField jTFBuscador
+     * Método que establece que el filtro actuará acorde a la información del
+     * TextField jTFBuscador
      */
     public void newFilter() {
         crearFiltro();
@@ -656,6 +685,18 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Debido a que no reflejamos la logica del Inicio de Sesión sino sólo el CU Registrar Obra, se utiliza 
+     * un random para seleccionar el empleado dado que esta información la proveería el sistema mediante
+     * los datos utilizados durante el logueo. 
+     * @param list 
+     */
+    public void cargarEmpleado(ArrayList<Empleado> list){
+        int index=(int)Math.random() * 3;
+        this.txtEmpleado.setText(list.get(index).getApellido()+", "+list.get(index).getNombre());
+    }
     
-
+    public void cargarSensor(int codigoSensor){
+        this.txtSensor.setText(""+codigoSensor);
+    }
 }

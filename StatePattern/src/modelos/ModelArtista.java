@@ -23,7 +23,6 @@ public class ModelArtista extends Conexion {
     private String sql;
 
     public ArrayList<Artista> obtenerTodos() {
-        sql="SELECT * FROM Artista";
         ResultSet rs = super.ejecutarConsulta(sql);
         ArrayList<Artista> list = new ArrayList();
         Artista e;
@@ -32,7 +31,6 @@ public class ModelArtista extends Conexion {
             while (rs.next()) {
 
                 e = armarArtista(rs);
-                System.out.println("AGREGUE A : " + e.getNombre());
                 list.add(e);
             }
         } catch (SQLException ex) {

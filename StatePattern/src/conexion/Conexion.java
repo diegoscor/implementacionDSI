@@ -92,6 +92,7 @@ public class Conexion {
                 query.append(" ancho  INTEGER, peso REAL, valuacion  REAL, idEstilo INTEGER REFERENCES Estilo ( id ) ON DELETE SET NULL  ON UPDATE CASCADE ");
                 query.append(", idTecnica INTEGER REFERENCES Tecnica ( id ) ON DELETE SET NULL  ON UPDATE CASCADE, ");
                 query.append("idTematica INTEGER REFERENCES Tematica ( idTematica ) ON DELETE SET NULL  ON UPDATE CASCADE);");
+                query.append("idArtista INTEGER REFERENCES Artista ( idArtista ) ON DELETE SET NULL  ON UPDATE CASCADE ");
                 hacerPersistente(query.toString());
                 query = new StringBuilder("CREATE TABLE HistorialEstado ( fecha DATETIME NOT NULL, ");
                 query.append(" nombreEstado VARCHAR NOT NULL REFERENCES Estado(nombre) ON DELETE CASCADE ON UPDATE CASCADE,");

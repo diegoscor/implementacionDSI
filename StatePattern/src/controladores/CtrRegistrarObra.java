@@ -7,15 +7,18 @@ package controladores;
 
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import modelos.ModelArtista;
+import modelos.ModelEmpleado;
 import modelos.ModelEstilo;
 import modelos.ModelRegistrarObra;
 import modelos.ModelTecnica;
 import modelos.ModelTematica;
+import modelos.ModelTipoIngreso;
+import objetos.Empleado;
 import objetos.Estilo;
 import objetos.Obra;
 import objetos.Tecnica;
 import objetos.Tematica;
+import objetos.TipoIngreso;
 import vistas.FrmRegistrarObra;
 
 /**
@@ -29,15 +32,17 @@ public class CtrRegistrarObra {
     private ModelTecnica mdlTecnica;
     private ModelTematica mdlTematica;
     private ModelEstilo mdlEstilo;
-    private ModelArtista mdlArtista;
+    private ModelTipoIngreso mdlTipoIngreso;
     private ModelRegistrarObra mdlRegistrarObra;
+    private ModelEmpleado mdlEmpleado;
     
     public CtrRegistrarObra(){
         mdlTecnica = new ModelTecnica();
         mdlTematica = new ModelTematica();
         mdlEstilo = new ModelEstilo();
-        mdlArtista = new ModelArtista();
         mdlRegistrarObra = new ModelRegistrarObra();
+        mdlTipoIngreso= new ModelTipoIngreso();
+        mdlEmpleado=new ModelEmpleado();
         frm = new FrmRegistrarObra();
         iniciarFrame();
     }
@@ -53,17 +58,20 @@ public class CtrRegistrarObra {
     public void iniciarFrame(){
        
         frm.setManejador(this);
+        this.cargarEmpleado();
         this.cargarComboEstilo();
         this.cargarComboTecnica();
         this.cargarComboTematica();
+        this.cargarComboTipoIngreso();
         this.cargarGrilla();
+        this.cargarSensor();
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
     }
     
      private void cargarComboEstilo(){
         ArrayList<Estilo> list = mdlEstilo.obtenerTodos();
-        frm.cargarComboBoxEtilo(list);
+        frm.cargarComboBoxEstilo(list);
     }
      
      private void cargarComboTecnica(){
@@ -76,10 +84,24 @@ public class CtrRegistrarObra {
         frm.cargarComboBoxTematica(list);
     }
      
+     private void cargarComboTipoIngreso(){
+        ArrayList<TipoIngreso> list = mdlTipoIngreso.obtenerTodos();
+        frm.cargarComboBoxTipoIngreso(list);
+    }
+     
+     private void cargarEmpleado(){
+         ArrayList<Empleado> list =mdlEmpleado.obtenerTodos();
+         frm.cargarEmpleado(list);
+     }
+     
      private void cargarGrilla(){
          DefaultTableModel mdlGrilla = mdlRegistrarObra.obtenerModeloGrilla();
          frm.cargarGrilla(mdlGrilla);
      }
      
+     private void cargarSensor(){
+         int codigoSensor= mdlRegistrarObra.obtenerCodigoSensor();
+         frm.cargarSensor(codigoSensor);
+     }
      
 }

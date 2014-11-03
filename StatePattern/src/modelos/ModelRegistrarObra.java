@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ModelRegistrarObra extends Conexion {
 
+    String sql;
     public DefaultTableModel obtenerModeloGrilla() {
         DefaultTableModel modeloArtista = new DefaultTableModel() {
             @Override
@@ -43,7 +44,7 @@ public class ModelRegistrarObra extends Conexion {
     }
 
     public Vector obtenerColumnasArtista() throws SQLException {
-        String sql = "SELECT * FROM artista";
+        sql = "SELECT nombre, apellido, pseudonimo FROM artista";
 
         ResultSet rs = super.ejecutarConsulta(sql);
 
@@ -60,7 +61,7 @@ public class ModelRegistrarObra extends Conexion {
     }
 
     public Vector obtenerDataArtista() throws SQLException {
-        String sql = "SELECT * FROM artista";
+        sql = "SELECT nombre, apellido, pseudonimo FROM artista";
 
         ResultSet rs = super.ejecutarConsulta(sql);
 
@@ -79,5 +80,20 @@ public class ModelRegistrarObra extends Conexion {
         }
 
         return data;
+    }
+    
+    public int obtenerCodigoSensor() {
+        sql ="SELECT MAX(sensor) FROM Obra";
+        
+        int codigoSensor=-1;
+        ResultSet rs = super.ejecutarConsulta(sql);
+        try {
+            while(rs.next()){
+                codigoSensor=rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return codigoSensor+1;
     }
 }

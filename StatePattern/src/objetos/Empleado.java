@@ -18,12 +18,12 @@ public class Empleado {
     private int dni, telefono;
     private Date fechaIngreso, fechaEgreso;
 
-    public Empleado(String apellido, String cuit, String domicilio, String mail, String nombre, String sexo, int dni, int telefono, Date fechaIngreso) {
-        this.apellido = apellido;
+    public Empleado(String cuit, String apellido, String nombre, String domicilio, String mail, String sexo, int dni, int telefono, Date fechaIngreso) {
         this.cuit = cuit;
+        this.apellido = apellido;
+        this.nombre = nombre;
         this.domicilio = domicilio;
         this.mail = mail;
-        this.nombre = nombre;
         this.sexo = sexo;
         this.dni = dni;
         this.telefono = telefono;

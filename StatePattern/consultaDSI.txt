@@ -113,6 +113,8 @@ CREATE TABLE Obra (
                                                         ON UPDATE CASCADE,
     idTematica        INTEGER REFERENCES Tematica ( idTematica ) ON DELETE SET NULL
                                                                  ON UPDATE CASCADE 
+    idArtista         INTEGER REFERENCES Artista ( idArtista ) ON DELETE SET NULL
+                                                               ON UPDATE CASCADE 
 );
 
 

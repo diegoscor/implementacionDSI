@@ -33,7 +33,6 @@ public class ModelTematica extends Conexion {
             while (rs.next()) {
 
                 e = armarTematica(rs);
-                System.out.println("AGREGUE A : " + e.getNombre());
                 list.add(e);
             }
         } catch (SQLException ex) {

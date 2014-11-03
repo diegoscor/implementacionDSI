@@ -1,6 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
+ * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
 package modelos;
@@ -11,28 +10,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import objetos.Tecnica;
+import objetos.TipoIngreso;
 
 /**
  *
- * @author Diego
+ * @author Aldi Vaca
  */
-public class ModelTecnica extends Conexion {
+public class ModelTipoIngreso extends Conexion {
 
     
     private String sql;
 
-    public ArrayList<Tecnica> obtenerTodos() {
-        sql="SELECT * FROM Tecnica";
+    public ArrayList<TipoIngreso> obtenerTodos() {
+        sql="SELECT * FROM TipoIngreso";
         
         ResultSet rs = super.ejecutarConsulta(sql);
-        ArrayList<Tecnica> list = new ArrayList();
-        Tecnica e;
+        ArrayList<TipoIngreso> list = new ArrayList();
+        TipoIngreso e;
 
         try {
             while (rs.next()) {
 
-                e = armarTecnica(rs);
+                e = armarTipoIngreso(rs);
                 list.add(e);
             }
         } catch (SQLException ex) {
@@ -43,15 +42,15 @@ public class ModelTecnica extends Conexion {
         return list;
     }
 
-    public Tecnica armarTecnica(ResultSet rs) throws SQLException {
-        Tecnica e;
+    public TipoIngreso armarTipoIngreso(ResultSet rs) throws SQLException {
+        TipoIngreso e;
         String nombre, desc;
         int id;
         
         id = rs.getInt(1);
         nombre = rs.getString(2);
         desc = rs.getString(3);
-        e = new Tecnica(id, nombre, desc);
+        e = new TipoIngreso(id, nombre, desc);
 
         return e;
     }
