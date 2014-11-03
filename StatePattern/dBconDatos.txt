@@ -1,0 +1,175 @@
+
+-- Table: Artista
+CREATE TABLE Artista ( 
+    idArtista   INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                        NOT NULL,
+    nombre      VARCHAR NOT NULL,
+    apellido    VARCHAR NOT NULL,
+    mail        VARCHAR,
+    pseudonimo  VARCHAR,
+    antecedente VARCHAR,
+    sexo        VARCHAR,
+    telefono    INTEGER 
+);
+
+INSERT INTO [Artista] ([idArtista], [nombre], [apellido], [mail], [pseudonimo], [antecedente], [sexo], [telefono]) VALUES (1, 'Leonardo di ser Piero', 'Da Vinci', null, 'Da Vinci', null, 'M', null);
+INSERT INTO [Artista] ([idArtista], [nombre], [apellido], [mail], [pseudonimo], [antecedente], [sexo], [telefono]) VALUES (2, 'Pablo', 'Ruiz Picasso', null, 'Picasso', null, 'M', null);
+INSERT INTO [Artista] ([idArtista], [nombre], [apellido], [mail], [pseudonimo], [antecedente], [sexo], [telefono]) VALUES (3, 'Magdalena del Carmen Frida', 'Kahlo Calderón', null, 'Frida Kahlo', null, 'F', null);
+INSERT INTO [Artista] ([idArtista], [nombre], [apellido], [mail], [pseudonimo], [antecedente], [sexo], [telefono]) VALUES (4, 'Vincent Willem', 'Van Gogh', null, 'Van Gogh', null, 'M', null);
+INSERT INTO [Artista] ([idArtista], [nombre], [apellido], [mail], [pseudonimo], [antecedente], [sexo], [telefono]) VALUES (5, 'Leonid', 'Afremov', 'leonid@afremov.com', 'Afremov', null, 'M', null);
+
+-- Table: Tematica
+CREATE TABLE Tematica ( 
+    idTematica INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                       NOT NULL,
+    nombre     VARCHAR 
+);
+
+INSERT INTO [Tematica] ([idTematica], [nombre]) VALUES (1, 'Retrato');
+INSERT INTO [Tematica] ([idTematica], [nombre]) VALUES (2, 'Paisaje');
+INSERT INTO [Tematica] ([idTematica], [nombre]) VALUES (3, 'Religiosa');
+INSERT INTO [Tematica] ([idTematica], [nombre]) VALUES (4, 'Mitológica');
+INSERT INTO [Tematica] ([idTematica], [nombre]) VALUES (5, 'Bodegón');
+INSERT INTO [Tematica] ([idTematica], [nombre]) VALUES (6, 'Histórica');
+
+-- Table: Tecnica
+CREATE TABLE Tecnica ( 
+    id          INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                        NOT NULL,
+    nombre      VARCHAR NOT NULL,
+    descripcion VARCHAR 
+);
+
+INSERT INTO [Tecnica] ([id], [nombre], [descripcion]) VALUES (1, 'Acuarela', null);
+INSERT INTO [Tecnica] ([id], [nombre], [descripcion]) VALUES (2, 'Óleo', null);
+INSERT INTO [Tecnica] ([id], [nombre], [descripcion]) VALUES (3, 'Acrílico', null);
+INSERT INTO [Tecnica] ([id], [nombre], [descripcion]) VALUES (4, 'Pastel', null);
+
+-- Table: Estilo
+CREATE TABLE Estilo ( 
+    id          INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                        NOT NULL,
+    nombre      VARCHAR NOT NULL,
+    descripcion VARCHAR 
+);
+
+INSERT INTO [Estilo] ([id], [nombre], [descripcion]) VALUES (1, 'Realista', null);
+INSERT INTO [Estilo] ([id], [nombre], [descripcion]) VALUES (2, 'Impresionista', null);
+INSERT INTO [Estilo] ([id], [nombre], [descripcion]) VALUES (3, 'Expresionista', null);
+INSERT INTO [Estilo] ([id], [nombre], [descripcion]) VALUES (4, 'Surrealista', null);
+INSERT INTO [Estilo] ([id], [nombre], [descripcion]) VALUES (5, 'Arte Abstracto', null);
+INSERT INTO [Estilo] ([id], [nombre], [descripcion]) VALUES (6, 'Arte Renacentista', null);
+INSERT INTO [Estilo] ([id], [nombre], [descripcion]) VALUES (7, 'Cubismo', null);
+
+-- Table: Obra
+CREATE TABLE Obra ( 
+    sensor            INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                              NOT NULL,
+    nombre            VARCHAR NOT NULL,
+    fechaCreacion     DATE,
+    fechaRegistracion DATE,
+    alto              INTEGER,
+    ancho             INTEGER,
+    peso              REAL,
+    valuacion         REAL,
+    idEstilo          INTEGER REFERENCES Estilo ( id ) ON DELETE SET NULL
+                                                       ON UPDATE CASCADE,
+    idTecnica         INTEGER REFERENCES Tecnica ( id ) ON DELETE SET NULL
+                                                        ON UPDATE CASCADE,
+    idTematica        INTEGER REFERENCES Tematica ( idTematica ) ON DELETE SET NULL
+                                                                 ON UPDATE CASCADE,
+    idArtista         INTEGER REFERENCES Artista ( idArtista ) ON DELETE SET NULL
+                                                               ON UPDATE CASCADE 
+);
+
+INSERT INTO [Obra] ([sensor], [nombre], [fechaCreacion], [fechaRegistracion], [alto], [ancho], [peso], [valuacion], [idEstilo], [idTecnica], [idTematica], [idArtista]) VALUES (1, 'La Gioconda', 1503, 2014, 770, 530, null, 1000000000.0, 6, 2, 1, 1);
+INSERT INTO [Obra] ([sensor], [nombre], [fechaCreacion], [fechaRegistracion], [alto], [ancho], [peso], [valuacion], [idEstilo], [idTecnica], [idTematica], [idArtista]) VALUES (2, 'Autorretrato Con Mono', 1966, 2014, 406, 305, null, 44000.0, 3, 2, 1, 3);
+INSERT INTO [Obra] ([sensor], [nombre], [fechaCreacion], [fechaRegistracion], [alto], [ancho], [peso], [valuacion], [idEstilo], [idTecnica], [idTematica], [idArtista]) VALUES (3, 'Guernica', 1937, 2014, 349, 7766, null, 125000.0, 7, 2, 6, 2);
+
+-- Table: Empleado
+CREATE TABLE Empleado ( 
+    cuit         VARCHAR PRIMARY KEY
+                         NOT NULL
+                         UNIQUE,
+    apellido     VARCHAR NOT NULL,
+    nombre       VARCHAR NOT NULL,
+    domicilio    VARCHAR,
+    mail         VARCHAR,
+    sexo         VARCHAR,
+    dni          INTEGER,
+    telefono     INTEGER,
+    fechaIngreso DATE,
+    fechaEgreso  DATE 
+);
+
+INSERT INTO [Empleado] ([cuit], [apellido], [nombre], [domicilio], [mail], [sexo], [dni], [telefono], [fechaIngreso], [fechaEgreso]) VALUES (27383305190, 'Vaca', 'Aldana Yael', 'Obispo Fajardo 2084', 'aldi.vaca@gmail.com', 'F', 38330519, 3516534420, '01/10/2014', null);
+INSERT INTO [Empleado] ([cuit], [apellido], [nombre], [domicilio], [mail], [sexo], [dni], [telefono], [fechaIngreso], [fechaEgreso]) VALUES (27374567820, 'Sosa Morales', 'Camila', 'Crisol 800', 'camisosamorales@gmail.com', 'F', 37456782, 2975648125, '01/11/2014', null);
+INSERT INTO [Empleado] ([cuit], [apellido], [nombre], [domicilio], [mail], [sexo], [dni], [telefono], [fechaIngreso], [fechaEgreso]) VALUES ('20367742957  ', 'Cordoba', 'Diego Ivan', 'Velez 4012', 'diegoscor@gmail.com', 'M', 36774295, 3516589671, '10/10/2014', null);
+
+-- Table: Usuario
+CREATE TABLE Usuario ( 
+    nombre       VARCHAR NOT NULL,
+    contraseña   VARCHAR NOT NULL,
+    caducidad    BOOLEAN,
+    cuitEmpleado VARCHAR REFERENCES Empleado ( cuit ) ON DELETE CASCADE
+                                                      ON UPDATE CASCADE,
+    PRIMARY KEY ( nombre, contraseña ) 
+);
+
+INSERT INTO [Usuario] ([nombre], [contraseña], [caducidad], [cuitEmpleado]) VALUES ('aldivaca', 190694, 'false', 27383305190);
+
+-- Table: Sesion
+CREATE TABLE Sesion ( 
+    fechaInicio       DATE    NOT NULL,
+    fechaFin          DATE    NOT NULL,
+    nombreUsuario     VARCHAR NOT NULL,
+    contraseñaUsuario VARCHAR NOT NULL,
+    PRIMARY KEY ( fechaInicio, fechaFin, nombreUsuario, contraseñaUsuario ),
+    FOREIGN KEY ( nombreUsuario, contraseñaUsuario ) REFERENCES Usuario ( nombre, contraseña ) ON DELETE CASCADE
+                                                                                                   ON UPDATE CASCADE 
+);
+
+
+-- Table: Estado
+CREATE TABLE Estado ( 
+    nombre      VARCHAR PRIMARY KEY
+                        NOT NULL,
+    descripcion VARCHAR 
+);
+
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('baja', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('devuelta', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('pendientederestauracion', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('enrestauracion', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('asignadoadeposito', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('encoleccion', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('enexposicion', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('enprestamo', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('enplanificacion', null);
+INSERT INTO [Estado] ([nombre], [descripcion]) VALUES ('pendientedeasignacion', null);
+
+-- Table: TipoIngreso
+CREATE TABLE TipoIngreso ( 
+    id          INTEGER PRIMARY KEY ASC AUTOINCREMENT
+                        NOT NULL,
+    nombre      VARCHAR NOT NULL,
+    descripcion VARCHAR 
+);
+
+INSERT INTO [TipoIngreso] ([id], [nombre], [descripcion]) VALUES (1, 'Compra', null);
+INSERT INTO [TipoIngreso] ([id], [nombre], [descripcion]) VALUES (2, 'Donación', null);
+INSERT INTO [TipoIngreso] ([id], [nombre], [descripcion]) VALUES (3, 'Préstamo', null);
+
+-- Table: HistorialEstado
+CREATE TABLE HistorialEstado ( 
+    fecha        DATETIME NOT NULL,
+    nombreEstado VARCHAR  NOT NULL
+                          REFERENCES Estado ( nombre ) ON DELETE CASCADE
+                                                       ON UPDATE CASCADE,
+    sensorObra   INTEGER  REFERENCES Obra ( sensor ) ON DELETE CASCADE
+                                                     ON UPDATE CASCADE,
+    PRIMARY KEY ( fecha, nombreEstado, sensorObra ) 
+);
+
+INSERT INTO [HistorialEstado] ([fecha], [nombreEstado], [sensorObra]) VALUES ('01/11/2014', 'pendientedeasignacion', 2);
+INSERT INTO [HistorialEstado] ([fecha], [nombreEstado], [sensorObra]) VALUES ('02/11/2014', 'pendientedeasignacion', 1);

@@ -15,6 +15,7 @@ import objetos.Tecnica;
  * @author Diego
  */
 public class ComboRendererTecnica extends DefaultListCellRenderer{
+    @Override
     public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
         Object item = value;
         

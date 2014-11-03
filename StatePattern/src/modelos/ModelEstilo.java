@@ -33,7 +33,6 @@ public class ModelEstilo extends Conexion {
             while (rs.next()) {
 
                 e = armarEstilo(rs);
-                System.out.println("AGREGUE A : " + e.getNombre());
                 list.add(e);
             }
         } catch (SQLException ex) {
