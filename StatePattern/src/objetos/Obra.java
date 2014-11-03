@@ -16,9 +16,9 @@ public class Obra {
     
     private long sensor;
     private String nombre;
-    private int fechaCreacion;
+    private int alto, ancho, fechaCreacion;
     private Date fechaRegistracion;
-    private double alto, ancho, peso, valuacion;
+    private double peso, valuacion;
     private Estilo estilo;
     private Tecnica tecnica;
     private Tematica tematica;
@@ -28,7 +28,7 @@ public class Obra {
     private ArrayList<HistorialEstado> historial;
     private ArrayList<String> imagenes;
     
-    public Obra(long sensor, String nombre, int fechaCreacion, Date fechaRegistracion, double alto, double ancho, double peso, double valuacion, Estilo estilo, Tecnica tecnica, Tematica tematica, Artista artista, TipoIngreso tipoIngreso, Empleado empleadoReg, ArrayList<HistorialEstado> historial, ArrayList<String> img) {
+    public Obra(long sensor, String nombre, int fechaCreacion, Date fechaRegistracion, int alto, int ancho, double peso, double valuacion, Estilo estilo, Tecnica tecnica, Tematica tematica, Artista artista, TipoIngreso tipoIngreso, Empleado empleadoReg, ArrayList<HistorialEstado> historial, ArrayList<String> img) {
         this.sensor = sensor;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
@@ -87,19 +87,19 @@ public class Obra {
         this.fechaRegistracion = fechaRegistracion;
     }
 
-    public double getAlto() {
+    public int getAlto() {
         return alto;
     }
 
-    public void setAlto(double alto) {
+    public void setAlto(int alto) {
         this.alto = alto;
     }
 
-    public double getAncho() {
+    public int getAncho() {
         return ancho;
     }
 
-    public void setAncho(double ancho) {
+    public void setAncho(int ancho) {
         this.ancho = ancho;
     }
 

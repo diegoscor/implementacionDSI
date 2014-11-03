@@ -20,13 +20,10 @@ import javax.swing.JOptionPane;
  */
 public class Conexion {
 
-    private String ruta = "miDataBase.s3db", nomArch;
+    private String ruta = "miDataBase.s3db";
     private Connection cnx;
-    private Statement st;
     private PreparedStatement ps;
-    private ResultSet rs;
-    private String sql;
-
+    
     public Conexion() {
 
         try {

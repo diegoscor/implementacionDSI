@@ -26,57 +26,128 @@ public class ModelRegistrarObra extends Conexion {
     public boolean validarCodigoSensor(long sensor) {
         sql = "SELECT sensor FROM Obra WHERE sensor=" + sensor;
 
-        boolean r = false;
         ResultSet rs = super.ejecutarConsulta(sql);
         try {
-            while (rs.next()) {
-                r = true;
+            if (rs != null) {
+                return rs.next();
             }
         } catch (SQLException ex) {
             Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return r;
+        return false;
     }
 
     public boolean insertarObra(Obra o) {
         long sensor = o.getSensor();
         String nombre = o.getNombre();
-        int fechaCreacion = o.getFechaCreacion();
         Date fechaRegistracion = o.getFechaRegistracion();
-        double alto, ancho, peso, valuacion;
-        alto = o.getAlto();
-        ancho = o.getAncho();
-        peso = o.getPeso();
-        valuacion = o.getValuacion();
-        int estilo = o.getEstilo().getId();
-        int tecnica = o.getTecnica().getId();
-        int tematica = o.getTematica().getId();
-        int artista = o.getArtista().getId();
-        int tipoIngreso = o.getTipoIngreso().getId();
+        int tipoIngreso=o.getTipoIngreso().getId();
         String empleadoReg = o.getEmpleadoReg().getCuit();
         ArrayList<HistorialEstado> historial = o.getHistorial();
         ArrayList<String> imagenes = o.getImagenes();
-        
-        String e=historial.get(historial.size()-1).getEstado().getNombre();
-        
+
+        String e = historial.get(historial.size() - 1).getEstado().getNombre();
+
         try {
-            sql = "INSERT INTO Obra (sensor, nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, idEstilo, idTecnica, idTematica, idArtista, idTipoIngreso, idEmpleado) ";
-            sql += " VALUES(" + sensor + ", '" + nombre + "', " + fechaCreacion + ", " + fechaRegistracion + ", " + alto + ", " + ancho + ", " + peso + ", " + valuacion + ", " + estilo + ", " + tecnica + ", " + tematica + ", " + artista + ", " + tipoIngreso+", '"+empleadoReg+"')";
+            System.out.println("Entro a escribir");
+            sql = "INSERT INTO Obra (sensor, nombre, fechaRegistracion, idTipoIngreso, idEmpleado) ";
+            sql += " VALUES(" + sensor + ", '" + nombre + "', " + fechaRegistracion +", "+ tipoIngreso + ", '" + empleadoReg + "')";
             super.hacerPersistente(sql);
+            addEstilo(o);
+            addTecnica(o);
+            addTematica(o);
+            addArtista(o);
+            addAlto(o);
+            addAncho(o);
+            addFechaCreacion(o);
+            addPeso(o);
+            addValuacion(o);
+            System.out.println("Escribo imagenes");
             for (int i = 0; i < imagenes.size(); i++) {
-                String p=imagenes.get(i);
-                sql = "INSERT INTO Imagen (ruta, idObra) VALUES( '" +p+"'," + sensor + ")";
+                String p = imagenes.get(i);
+                sql = "INSERT INTO Imagen (ruta, idObra) VALUES( '" + p + "'," + sensor + ")";
                 super.hacerPersistente(sql);
             }
-            sql="INSERT INTO HistorialEstado (fecha, nombreEstado, sensorObra) ";
-            sql+=" VALUES('"+fechaRegistracion+"', '"+e+"', "+sensor;
+            System.out.println("escribo historial");
+            sql = "INSERT INTO HistorialEstado (fecha, nombreEstado, sensorObra) ";
+            sql += " VALUES('" + fechaRegistracion + "', '" + e + "', " + sensor;
             super.hacerPersistente(sql);
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
+    }
 
-        
+    public void addEstilo(Obra o) throws SQLException {
+        if (o.getEstilo() != null) {
+            int estilo = o.getEstilo().getId();
+            sql = "UPDATE Obra SET idEstilo=" + estilo + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
+    }
+    
+    public void addTecnica(Obra o) throws SQLException {
+        if (o.getTecnica() != null) {
+            int tecnica = o.getTecnica().getId();
+            sql = "UPDATE Obra SET idTecnica=" + tecnica + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
+    }
+    
+    public void addTematica(Obra o) throws SQLException {
+        if (o.getTematica() != null) {
+            int tematica = o.getTematica().getId();
+            sql = "UPDATE Obra SET idTematica=" + tematica + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
+    }
+    
+    public void addArtista(Obra o) throws SQLException {
+        if (o.getArtista() != null) {
+            int artista = o.getArtista().getId();
+            sql = "UPDATE Obra SET idArtista=" + artista + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
+    }
+    
+    public void addAlto(Obra o) throws SQLException {
+        if (o.getAlto() != 0) {
+            int alto = o.getAlto();
+            sql = "UPDATE Obra SET alto=" + alto + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
+    }
+    
+    public void addAncho(Obra o) throws SQLException {
+        if (o.getAncho() != 0) {
+            int ancho = o.getAncho();
+            sql = "UPDATE Obra SET ancho=" + ancho + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
+    }
+    
+    public void addFechaCreacion(Obra o) throws SQLException {
+        if (o.getFechaCreacion() != 0) {
+            int fechaCreacion = o.getFechaCreacion();
+            sql = "UPDATE Obra SET fechaCreacion=" + fechaCreacion + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
+    }
+    
+    public void addPeso(Obra o) throws SQLException {
+        if (o.getPeso() != 0) {
+            double peso = o.getPeso();
+            sql = "UPDATE Obra SET peso=" + peso + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
+    }
+    
+    public void addValuacion(Obra o) throws SQLException {
+        if (o.getValuacion() != 0) {
+            double valor = o.getValuacion();
+            sql = "UPDATE Obra SET valuacion=" + valor + " WHERE sensor= " + o.getSensor();
+            super.hacerPersistente(sql);
+        }
     }
 }
