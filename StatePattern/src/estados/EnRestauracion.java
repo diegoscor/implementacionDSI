@@ -13,14 +13,17 @@ import objetos.Estado;
  */
 public class EnRestauracion extends Estado {
 
-    public EnRestauracion(String nombre, String descripcion) {
-        super(nombre, descripcion);
+    public EnRestauracion() {
+        super();
+        super.setNombre("En Restauracion");
     }
     
+    @Override
     public void darBaja(){
         //Baja
     }
     
+    @Override
     public void exponer(){
         //EnExposicion
     }

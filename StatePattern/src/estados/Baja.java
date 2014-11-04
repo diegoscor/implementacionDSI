@@ -14,9 +14,11 @@ import objetos.Estado;
 public class Baja extends Estado {
 
     public Baja(String nombre, String descripcion) {
-        super(nombre, descripcion);
+        super();
+        super.setNombre("Baja");
     }
 
+    @Override
     public boolean estaDadoBaja() {
         return false;
     }

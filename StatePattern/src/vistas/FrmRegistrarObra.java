@@ -817,8 +817,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                         artista = null;
                     }
                     tipoIngreso = (TipoIngreso) this.cboTipoIngreso.getSelectedItem();
-                    Estado e = new PendienteDeAsignacion("Pendiente De Asignacion",
-                            "La obra se encuentra en deposito para ser asignada a una colección.");
+                    Estado e = new PendienteDeAsignacion();
                     System.out.println("Creo estado");
                     HistorialEstado h = new HistorialEstado(new Date(), e);
                     historial.add(h);

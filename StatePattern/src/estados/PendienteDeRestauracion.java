@@ -13,8 +13,9 @@ import objetos.Estado;
  */
 public class PendienteDeRestauracion extends Estado {
 
-    public PendienteDeRestauracion(String nombre, String descripcion) {
-        super(nombre, descripcion);
+    public PendienteDeRestauracion() {
+        super();
+        super.setNombre("Pendiente De Restauracion");
     }
     
     @Override

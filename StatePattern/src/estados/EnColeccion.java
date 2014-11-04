@@ -14,7 +14,8 @@ import objetos.Estado;
 public class EnColeccion extends Estado {
 
     public EnColeccion(String nombre, String descripcion) {
-        super(nombre, descripcion);
+        super();
+        super.setNombre("En Coleccion");
     }
 
     @Override

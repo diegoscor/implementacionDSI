@@ -14,9 +14,11 @@ import objetos.Estado;
 public class EnPrestamo extends Estado {
 
     public EnPrestamo(String nombre, String descripcion) {
-        super(nombre, descripcion);
+        super();
+        super.setNombre("En Prestamo");
     }
     
+    @Override
     public void devolver(){
         //Devuelto
     }
