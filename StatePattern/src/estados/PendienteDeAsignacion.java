@@ -13,8 +13,9 @@ import objetos.Estado;
  */
 public class PendienteDeAsignacion extends Estado {
 
-    public PendienteDeAsignacion(String nombre, String descripcion) {
-        super(nombre, descripcion);
+    public PendienteDeAsignacion() {
+        super();
+        super.setNombre("Pendiente De Asignacion");
     }
     
     @Override

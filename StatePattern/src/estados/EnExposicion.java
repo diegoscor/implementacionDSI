@@ -14,17 +14,21 @@ import objetos.Estado;
 public class EnExposicion extends Estado {
 
     public EnExposicion(String nombre, String descripcion) {
-        super(nombre, descripcion);
+        super();
+        super.setNombre("En Exposicion");
     }
     
+    @Override
     public void cerrarExposicion(){
         //EnColeccion
     }
     
+    @Override
     public void restaurar(){
         //PendienteDeRestauracion
     }
     
+    @Override
     public boolean validarEstado(){
         return false;
         //Esta en exposicion?
