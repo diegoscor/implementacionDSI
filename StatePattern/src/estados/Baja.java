@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -13,13 +14,14 @@ import objetos.Estado;
  */
 public class Baja extends Estado {
 
-    public Baja(String nombre, String descripcion) {
+    public Baja() {
         super();
         super.setNombre("Baja");
     }
 
     @Override
     public boolean estaDadoBaja() {
+        JOptionPane.showMessageDialog(null, "La obra está dada de baja", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
         return false;
     }
 }

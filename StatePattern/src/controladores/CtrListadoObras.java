@@ -7,6 +7,7 @@ package controladores;
 
 import javax.swing.table.DefaultTableModel;
 import modelos.ModelListadoObras;
+import objetos.Obra;
 import vistas.FrmListadoObras;
 
 /**
@@ -34,5 +35,10 @@ public class CtrListadoObras {
          DefaultTableModel mdlGrilla = mdlListado.obtenerModeloGrilla();
          frm.cargarGrilla(mdlGrilla);
      }
+    
+    public Obra armarObra(int id){
+        Obra o = mdlListado.obtenerObra(id); 
+        return o;
+    }
     
 }

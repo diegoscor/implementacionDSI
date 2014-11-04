@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -21,9 +22,7 @@ public class PendienteDeAsignacion extends Estado {
     @Override
     public void asignar(){
         //AsignadoDeposito
+        JOptionPane.showMessageDialog(null, "La obra será asignada a una colección.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public void newEstado(){
-        
-    }
 }

@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -13,13 +14,14 @@ import objetos.Estado;
  */
 public class Devuelta extends Estado {
 
-    public Devuelta(String nombre, String descripcion) {
+    public Devuelta() {
         super();
         super.setNombre("Devuelta");
     }
     
     @Override
     public boolean estaDevuleto(){
+        JOptionPane.showMessageDialog(null, "La obra se ecuentra devuelta.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
         return true;
     }
 }

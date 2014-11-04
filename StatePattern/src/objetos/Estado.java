@@ -75,7 +75,13 @@ public abstract class Estado {
                 + "el estado en que se encuentra la Obra", "Funcionalidad no permitida", JOptionPane.INFORMATION_MESSAGE);
     }
     
-    public boolean validarEstado(){
+    public void registrarDevolucion(){
+        //EnPrestamo
+        JOptionPane.showMessageDialog(null, "La función escogida no se encuentra definida para"
+                + "el estado en que se encuentra la Obra", "Funcionalidad no permitida", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public boolean enExposicion(){
         return false;
         //Esta en exposicion?
     }
@@ -105,6 +111,11 @@ public abstract class Estado {
     public void restaurar(){
         //PendienteDeRestauracion
         JOptionPane.showMessageDialog(null, "La función escogida no se encuentra definida para"
+                + "el estado en que se encuentra la Obra", "Funcionalidad no permitida", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void devolverAColeccion(){
+         JOptionPane.showMessageDialog(null, "La función escogida no se encuentra definida para"
                 + "el estado en que se encuentra la Obra", "Funcionalidad no permitida", JOptionPane.INFORMATION_MESSAGE);
     }
    

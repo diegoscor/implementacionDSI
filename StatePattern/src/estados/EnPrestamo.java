@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -13,13 +14,13 @@ import objetos.Estado;
  */
 public class EnPrestamo extends Estado {
 
-    public EnPrestamo(String nombre, String descripcion) {
+    public EnPrestamo() {
         super();
         super.setNombre("En Prestamo");
     }
     
     @Override
-    public void devolver(){
-        //Devuelto
+    public void registrarDevolucion(){
+         JOptionPane.showMessageDialog(null, "La obra se registrará como devuelta.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
 }

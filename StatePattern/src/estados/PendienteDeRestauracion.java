@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -21,5 +22,6 @@ public class PendienteDeRestauracion extends Estado {
     @Override
     public void enviarRestaurar(){
         //EnRestauracion
+        JOptionPane.showMessageDialog(null, "La obra será enviada a restaurar.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
 }

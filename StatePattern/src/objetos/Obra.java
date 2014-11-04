@@ -54,6 +54,10 @@ public class Obra {
         this.tipoIngreso=tipoIngreso;
         this.empleadoReg=empleadoReg;
     }
+    
+    public Obra(ArrayList<HistorialEstado> historial){
+        this.historial = historial;
+    }
 
     public long getSensor() {
         return sensor;

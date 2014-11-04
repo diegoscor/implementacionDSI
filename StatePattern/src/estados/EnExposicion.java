@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -13,24 +14,28 @@ import objetos.Estado;
  */
 public class EnExposicion extends Estado {
 
-    public EnExposicion(String nombre, String descripcion) {
+    public EnExposicion() {
         super();
         super.setNombre("En Exposicion");
     }
-    
+
     @Override
-    public void cerrarExposicion(){
+    public void cerrarExposicion() {
         //EnColeccion
+        JOptionPane.showMessageDialog(null, "La obra será devuelta a depósito.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     @Override
-    public void restaurar(){
+    public void restaurar() {
         //PendienteDeRestauracion
+        JOptionPane.showMessageDialog(null, "La obra se asignará a pendiente de restauración.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     @Override
-    public boolean validarEstado(){
-        return false;
+    public boolean enExposicion() {
+
         //Esta en exposicion?
+        JOptionPane.showMessageDialog(null, "La obra se encuentra asignada a una exposición.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
+        return false;
     }
 }

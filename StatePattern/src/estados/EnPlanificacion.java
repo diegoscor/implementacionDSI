@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -13,7 +14,7 @@ import objetos.Estado;
  */
 public class EnPlanificacion extends Estado {
 
-    public EnPlanificacion(String nombre, String descripcion) {
+    public EnPlanificacion() {
         super();
         super.setNombre("En Planificacion");
     }
@@ -21,5 +22,6 @@ public class EnPlanificacion extends Estado {
     @Override
     public void exponer(){
         //EnExposicion
+        JOptionPane.showMessageDialog(null, "La obra será asignada a una exposición.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
 }

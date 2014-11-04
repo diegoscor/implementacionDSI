@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -13,7 +14,7 @@ import objetos.Estado;
  */
 public class AsignadoDeposito extends Estado {
 
-    public AsignadoDeposito(String nombre, String descripcion) {
+    public AsignadoDeposito() {
         super();
         super.setNombre("Asignado a Deposito");
     }
@@ -21,5 +22,6 @@ public class AsignadoDeposito extends Estado {
     @Override
     public void asignarColeccion(){
         //EnCOleccion
+        JOptionPane.showMessageDialog(null, "La obra sera asignada a una colección y guardada en depósito.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
 }

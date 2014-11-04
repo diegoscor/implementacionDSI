@@ -5,9 +5,9 @@
  */
 package vistas;
 
-import controladores.CtrCambioEstado;
 import controladores.CtrListadoObras;
 import javax.swing.table.DefaultTableModel;
+import objetos.Obra;
 
 /**
  *
@@ -35,6 +35,9 @@ public class FrmListadoObras extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableObras = new javax.swing.JTable();
         btnAceptar = new javax.swing.JButton();
+        cboFunciones = new javax.swing.JComboBox();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,10 +78,21 @@ public class FrmListadoObras extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnAceptar.setText("Aceptar");
+        btnAceptar.setText("Salir");
         btnAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAceptarActionPerformed(evt);
+            }
+        });
+
+        cboFunciones.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "asignar", "asignarColeccion", "enviarRestaurar", "darBaja", "estaDadoBaja", "exponer", "prestar", "enExposicion", "planificar", "cerrarExposicion", "devolver", "estaDevuleto", "restaurar" }));
+
+        jLabel1.setText("Elegir una función:");
+
+        jButton1.setText("Ejecutar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -88,35 +102,82 @@ public class FrmListadoObras extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(cboFunciones, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(409, 409, 409)
-                .addComponent(btnAceptar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAceptar)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAceptar)
+                    .addComponent(cboFunciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton1))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void tableObrasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableObrasMouseClicked
-        if(evt.getClickCount() == 2){
-            CtrCambioEstado e = new CtrCambioEstado();
+        if (evt.getClickCount() == 2) {
+
         }
     }//GEN-LAST:event_tableObrasMouseClicked
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         dispose();
     }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Obra obra = null;
+        if (this.tableObras.getSelectedRow() > -1) {
+            int aux = (int) this.tableObras.getValueAt(this.tableObras.getSelectedRow(), 0);
+            obra = gestor.armarObra(aux);
+            int inx = this.cboFunciones.getSelectedIndex();
+            switch (inx) {
+                case 0:  obra.getHistorial().get(0).getEstado().asignar();
+                    break;
+                case 1:  obra.getHistorial().get(0).getEstado().asignarColeccion();
+                    break;
+                case 2:  obra.getHistorial().get(0).getEstado().enviarRestaurar();
+                    break;
+                case 3:  obra.getHistorial().get(0).getEstado().darBaja();
+                    break;
+                case 4:  obra.getHistorial().get(0).getEstado().estaDadoBaja();
+                    break;
+                case 5:  obra.getHistorial().get(0).getEstado().exponer();
+                    break;
+                case 6:  obra.getHistorial().get(0).getEstado().prestar();
+                    break;
+                case 7:  obra.getHistorial().get(0).getEstado().enExposicion();
+                    break;
+                case 8:  obra.getHistorial().get(0).getEstado().planificar();
+                    break;
+                case 9:  obra.getHistorial().get(0).getEstado().cerrarExposicion();
+                    break;
+                case 10:  obra.getHistorial().get(0).getEstado().devolver();
+                    break;
+                case 11:  obra.getHistorial().get(0).getEstado().estaDevuleto();
+                    break;
+                case 12:  obra.getHistorial().get(0).getEstado().restaurar();
+                    break;
+            }
+            
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -155,17 +216,20 @@ public class FrmListadoObras extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JComboBox cboFunciones;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tableObras;
     // End of variables declaration//GEN-END:variables
 
     CtrListadoObras gestor;
-    
-    public void setManejador(CtrListadoObras c){
+
+    public void setManejador(CtrListadoObras c) {
         gestor = c;
     }
-    
+
     public void cargarGrilla(DefaultTableModel mdl) {
         this.tableObras.setModel(mdl);
     }

@@ -11,14 +11,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import objetos.Estado;
-import objetos.Estilo;
 
 /**
  *
  * @author Diego
  */
-public class ModelCambioEstado extends Conexion{
+public class ModelEstado extends Conexion{
     
     private String sql;
 

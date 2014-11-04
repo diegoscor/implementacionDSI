@@ -6,20 +6,35 @@
 package modelos;
 
 import conexion.Conexion;
+import estados.AsignadoDeposito;
+import estados.Baja;
+import estados.Devuelta;
+import estados.EnColeccion;
+import estados.EnExposicion;
+import estados.EnPlanificacion;
+import estados.EnPrestamo;
+import estados.EnRestauracion;
+import estados.PendienteDeAsignacion;
+import estados.PendienteDeRestauracion;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import objetos.Estado;
+import objetos.HistorialEstado;
+import objetos.Obra;
 
 /**
  *
  * @author Diego
  */
 public class ModelListadoObras extends Conexion {
-    
+
     private String sql;
 
     public DefaultTableModel obtenerModeloGrilla() {
@@ -82,5 +97,71 @@ public class ModelListadoObras extends Conexion {
         }
         return data;
     }
-    
+
+    public Obra obtenerObra(int id) {
+        Obra obra = null;
+        String estado = "";
+        sql = "SELECT h.nombreEstado FROM obra o JOIN historialEstado h ON o.sensor = h.sensorObra WHERE o.sensor=" + id;
+        System.out.println("La creacion de la obra se basa en el sql: "+sql);
+        ResultSet rs = super.ejecutarConsulta(sql);
+
+        try {
+            while (rs.next()) {
+                estado = rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModelArtista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        Estado e = obtenerEstado(estado);
+        System.out.println("se creo el estado");
+        ArrayList<HistorialEstado> h = new ArrayList();
+        Date date = new Date();
+        HistorialEstado he = new HistorialEstado(date,e);
+        h.add(he); 
+        System.out.println("se agrego el estado");
+        
+        obra = new Obra(h);
+        System.out.println("se creo la obra");
+
+        super.cerrarCnx();
+
+        return obra;
+    }
+
+    public Estado obtenerEstado(String nom) {
+        Estado e = null;
+        if (nom.equals("Asignado a Deposito")) {
+            e = new AsignadoDeposito();
+        }
+        if (nom.equals("Baja")) {
+            e = new Baja();
+        }
+        if (nom.equals("Devuelta")) {
+            e = new Devuelta();
+        }
+        if (nom.equals("Pendiente de Restauracion")) {
+            e = new PendienteDeRestauracion();
+        }
+        if (nom.equals("En Restauracion")) {
+            e = new EnRestauracion();
+        }
+        if (nom.equals("En Coleccion")) {
+            e = new EnColeccion();
+        }
+        if (nom.equals("En Exposicion")) {
+            e = new EnExposicion();
+        }
+        if (nom.equals("En Prestamo")) {
+            e = new EnPrestamo();
+        }
+        if (nom.equals("En Planificacion")) {
+            e = new EnPlanificacion();
+        }
+        if (nom.equals("Pendiente de Asignacion")) {
+            e = new PendienteDeAsignacion();
+        }
+        return e;
+    }
+
 }

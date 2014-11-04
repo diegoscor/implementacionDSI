@@ -5,6 +5,7 @@
  */
 package estados;
 
+import javax.swing.JOptionPane;
 import objetos.Estado;
 
 /**
@@ -21,10 +22,16 @@ public class EnRestauracion extends Estado {
     @Override
     public void darBaja(){
         //Baja
+         JOptionPane.showMessageDialog(null, "La obra no puedo restaurarse y será dada de baja.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
     
     @Override
     public void exponer(){
         //EnExposicion
+         JOptionPane.showMessageDialog(null, "La obra será devuelta a su exposición, habiendo sido exitosa su restauración.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void devolverAColeccion(){
+        JOptionPane.showMessageDialog(null, "La obra será devuelta a su colección, habiendo sido exitosa su restauración.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
 }
