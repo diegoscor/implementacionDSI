@@ -28,7 +28,7 @@ import vistas.FrmRegistrarObra;
  * @author Diego
  */
 public class CtrRegistrarObra {
-    
+
     private FrmRegistrarObra frm;
     private Empleado empleado;
     private ModelTecnica mdlTecnica;
@@ -38,22 +38,22 @@ public class CtrRegistrarObra {
     private ModelRegistrarObra mdlRegistrarObra;
     private ModelEmpleado mdlEmpleado;
     private ModelArtista mdlArtista;
-    
-    public CtrRegistrarObra(Empleado e){
+
+    public CtrRegistrarObra(Empleado e) {
         mdlTecnica = new ModelTecnica();
         mdlTematica = new ModelTematica();
         mdlEstilo = new ModelEstilo();
-        mdlArtista=new ModelArtista();
+        mdlArtista = new ModelArtista();
         mdlRegistrarObra = new ModelRegistrarObra();
-        mdlTipoIngreso= new ModelTipoIngreso();
-        mdlEmpleado=new ModelEmpleado();
+        mdlTipoIngreso = new ModelTipoIngreso();
+        mdlEmpleado = new ModelEmpleado();
         frm = new FrmRegistrarObra();
         empleado = e;
         iniciarFrame();
     }
-    
-    public void iniciarFrame(){
-       
+
+    public void iniciarFrame() {
+
         frm.setManejador(this);
         this.cargarEmpleado();
         this.cargarComboEstilo();
@@ -64,52 +64,53 @@ public class CtrRegistrarObra {
         this.cargarEmpleado();
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
-        
+
     }
-    
-     private void cargarComboEstilo(){
+
+    private void cargarComboEstilo() {
         ArrayList<Estilo> list = mdlEstilo.obtenerTodos();
         frm.cargarComboBoxEstilo(list);
     }
-     
-     private void cargarComboTecnica(){
+
+    private void cargarComboTecnica() {
         ArrayList<Tecnica> list = mdlTecnica.obtenerTodos();
         frm.cargarComboBoxTecnica(list);
     }
-     
-     private void cargarComboTematica(){
+
+    private void cargarComboTematica() {
         ArrayList<Tematica> list = mdlTematica.obtenerTodos();
         frm.cargarComboBoxTematica(list);
     }
-     
-     private void cargarComboTipoIngreso(){
+
+    private void cargarComboTipoIngreso() {
         ArrayList<TipoIngreso> list = mdlTipoIngreso.obtenerTodos();
         frm.cargarComboBoxTipoIngreso(list);
     }
-     
-     private void cargarEmpleado(){         
-         frm.cargarEmpleado(empleado);
-     }
-     
-     private void cargarGrilla(){
-         DefaultTableModel mdlGrilla = mdlArtista.obtenerModeloGrilla();
-         frm.cargarGrilla(mdlGrilla);
-     }
-     
-     public boolean validarSensor(long sensor){
-         boolean r=mdlRegistrarObra.validarCodigoSensor(sensor);
-         return r;
-     }
-     
-     public Artista armarArtista(int idArtista){
-         return mdlArtista.obtenerArtista(idArtista);
-     }
-     
-     public boolean insertarObra(Obra o){
-         return mdlRegistrarObra.insertarObra(o);
-     }
- 
-     public void cerrarCnx(){
-         mdlRegistrarObra.cerrarCnx();
-     }
+
+    private void cargarEmpleado() {
+        frm.cargarEmpleado(empleado);
+    }
+
+    private void cargarGrilla() {
+        DefaultTableModel mdlGrilla = mdlArtista.obtenerModeloGrilla();
+        frm.cargarGrilla(mdlGrilla);
+    }
+
+    public boolean validarSensor(long sensor) {
+        boolean r = mdlRegistrarObra.validarCodigoSensor(sensor);
+        return r;
+    }
+
+    public Artista armarArtista(int idArtista) {
+        Artista a = mdlArtista.obtenerArtista(idArtista);
+        return a;
+    }
+
+    public boolean insertarObra(Obra o) {
+        return mdlRegistrarObra.insertarObra(o);
+    }
+
+    public void cerrarCnx() {
+        mdlRegistrarObra.cerrarCnx();
+    }
 }

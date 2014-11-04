@@ -556,6 +556,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
 
         Obra obra = this.generarObra();
+        System.out.println("Se acaba de generar la obra");
         if (obra != null) {
             if (gestor.insertarObra(obra)) {
                 System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
@@ -563,7 +564,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(rootPane, "No se puedo registrar correctamente la obra en al base de datos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
             }
-            gestor.cerrarCnx();
+           // gestor.cerrarCnx();
             dispose();
         } else {
             JOptionPane.showMessageDialog(rootPane, "Error en la creación del objeto Obra", "Error de generación", JOptionPane.ERROR_MESSAGE);

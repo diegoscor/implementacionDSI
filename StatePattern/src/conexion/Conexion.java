@@ -38,10 +38,15 @@ public class Conexion {
     }
 
     public void abrirConexion() {
+
         try {
-            Class.forName("org.sqlite.JDBC");
-            cnx = DriverManager.getConnection("jdbc:sqlite:" + ruta);
-            cnx.setAutoCommit(false);
+            if (cnx == null || cnx.isClosed()) {
+
+                Class.forName("org.sqlite.JDBC");
+                cnx = DriverManager.getConnection("jdbc:sqlite:" + ruta);
+                cnx.setAutoCommit(false);
+
+            }
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
         }
@@ -137,9 +142,13 @@ public class Conexion {
 
         cnx.close();
         abrirConexion();
-        Statement stmt = cnx.createStatement();
-        stmt.executeUpdate(sql);
-        stmt.close();
+//        Statement stmt = cnx.createStatement();
+//        int res = stmt.executeUpdate(sql);
+         ps = cnx.prepareStatement(sql);
+        ps.executeUpdate();
+        
+//        System.out.println("El res es "+res);
+//        stmt.close();
         cnx.close();
 
     }
@@ -161,6 +170,17 @@ public class Conexion {
      */
     public ResultSet ejecutarConsulta(String sql) {
         try {
+//            Statement stmt = cnx.createStatement();
+//            
+//        
+//            
+//            System.out.println("El stmt "+stmt);
+//            System.out.println("El sql : "+sql);
+//            ResultSet r = stmt.executeQuery(sql);
+//            System.out.println("El r nulo? "+r);
+            abrirConexion();
+            if(cnx == null || cnx.isClosed())
+            System.out.println("Conexion nula");
             ps = cnx.prepareStatement(sql);
             ResultSet r = ps.executeQuery();
             return r;

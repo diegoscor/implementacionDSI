@@ -26,12 +26,19 @@ public class ModelRegistrarObra extends Conexion {
 
     public boolean validarCodigoSensor(long sensor) {
         sql = "SELECT sensor FROM Obra WHERE sensor=" + sensor;
-
+        long aux;
         ResultSet rs = super.ejecutarConsulta(sql);
         try {
-            if (rs != null) {
-                return rs.next();
+//            if (rs != null) {
+//                return rs.next();   
+//            }
+            while(rs.next()){
+                aux = rs.getLong(1);
+                if(aux == sensor){
+                    return true;
+                }
             }
+            
         } catch (SQLException ex) {
             Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -116,7 +123,7 @@ public class ModelRegistrarObra extends Conexion {
             super.realizarUpdate(sql);
         }
     }
-
+   
     public void addAlto(Obra o) throws SQLException {
         if (o.getAlto() != 0) {
             int alto = o.getAlto();

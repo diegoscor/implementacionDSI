@@ -85,13 +85,12 @@ public class ModelArtista extends Conexion {
     }
     
     public Artista obtenerArtista(int idArtista) {
-        sql="SELECT * FROM Artista WHERE idArtista="+idArtista;
+        sql="SELECT * FROM artista WHERE idArtista="+idArtista;
         ResultSet rs = super.ejecutarConsulta(sql);
         Artista e=null;
 
         try {
             while (rs.next()) {
-
                 e = armarArtista(rs);
             }
         } catch (SQLException ex) {
