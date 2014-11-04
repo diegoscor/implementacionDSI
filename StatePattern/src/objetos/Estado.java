@@ -118,5 +118,10 @@ public abstract class Estado {
          JOptionPane.showMessageDialog(null, "La función escogida no se encuentra definida para"
                 + "el estado en que se encuentra la Obra", "Funcionalidad no permitida", JOptionPane.INFORMATION_MESSAGE);
     }
+    
+    public void renovarPrestamo(){
+         JOptionPane.showMessageDialog(null, "La función escogida no se encuentra definida para"
+                + "el estado en que se encuentra la Obra", "Funcionalidad no permitida", JOptionPane.INFORMATION_MESSAGE);
+    }
    
 }

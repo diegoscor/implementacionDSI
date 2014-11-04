@@ -24,4 +24,8 @@ public class Devuelta extends Estado {
         JOptionPane.showMessageDialog(null, "La obra se ecuentra devuelta.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
         return true;
     }
+    
+    public void renovarPrestamo(){
+        JOptionPane.showMessageDialog(null, "La obra será reincorporada a la colección.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
+    }
 }
