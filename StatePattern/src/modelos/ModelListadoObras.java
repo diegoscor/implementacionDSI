@@ -112,7 +112,7 @@ public class ModelListadoObras extends Conexion {
         } catch (SQLException ex) {
             Logger.getLogger(ModelArtista.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
         Estado e = obtenerEstado(estado);
         System.out.println("se creo el estado");
         ArrayList<HistorialEstado> h = new ArrayList();
@@ -158,7 +158,7 @@ public class ModelListadoObras extends Conexion {
         if (nom.equals("En Planificacion")) {
             e = new EnPlanificacion();
         }
-        if (nom.equals("Pendiente de Asignacion")) {
+        if (nom.equals("Pendiente De Asignacion")) {
             e = new PendienteDeAsignacion();
         }
         return e;
