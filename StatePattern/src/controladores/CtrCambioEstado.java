@@ -7,7 +7,7 @@ package controladores;
 
 import java.util.ArrayList;
 import modelos.ModelCambioEstado;
-import vistas.FrmCambioEstado;
+import vistas.FrmFuncionesEstado;
 
 /**
  *
@@ -15,11 +15,11 @@ import vistas.FrmCambioEstado;
  */
 public class CtrCambioEstado {
     
-    private FrmCambioEstado frm;
+    private FrmFuncionesEstado frm;
     private ModelCambioEstado mdlEstado;
     
     public CtrCambioEstado(){
-        frm = new FrmCambioEstado();
+        frm = new FrmFuncionesEstado();
         mdlEstado = new ModelCambioEstado();
         iniciarFrame();
     }
@@ -28,12 +28,6 @@ public class CtrCambioEstado {
         frm.setManejador(this);
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
-        this.cargarComboEstados();
     }
     
-    private void cargarComboEstados() {
-        ArrayList<String> list = mdlEstado.obtenerTodos();
-        frm.cargarComboEstado(list);
-    }
-
 }
