@@ -8,7 +8,6 @@ package controladores;
 import java.util.ArrayList;
 import modelos.ModelEmpleado;
 import objetos.Empleado;
-import objetos.Sesion;
 import vistas.FrmMenu;
 
 /**
@@ -18,7 +17,6 @@ import vistas.FrmMenu;
 public class CtrMenu {
     
     private FrmMenu frm;
-    private Sesion sesion;
     private ModelEmpleado mdlEmpleado;
     
     public CtrMenu(){
