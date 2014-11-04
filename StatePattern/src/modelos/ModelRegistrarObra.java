@@ -63,7 +63,7 @@ public class ModelRegistrarObra extends Conexion {
             sql = "INSERT INTO Obra (sensor, nombre, fechaRegistracion, idTipoIngreso, idEmpleado) ";
             sql += " VALUES(" + sensor + ", '" + nombre + "', '" + dateFormat.format(fechaRegistracion) + "', " + tipoIngreso + ", '" + empleadoReg + "')";
             System.out.println("La sentencia sql es : " + sql);
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
             addEstilo(o);
             addTecnica(o);
             addTematica(o);
@@ -78,13 +78,13 @@ public class ModelRegistrarObra extends Conexion {
                 String p = imagenes.get(i);
                 sql = "INSERT INTO Imagen (ruta, idObra) VALUES( '" + p + "'," + sensor + ")";
                 System.out.println("La otra sentencia sql es: " + sql);
-                super.hacerPersistente(sql);
+                super.realizarUpdate(sql);
             }
             System.out.println("escribo historial");
             sql = "INSERT INTO HistorialEstado (fecha, nombreEstado, sensorObra) ";
             sql += " VALUES('" + dateFormat.format(fechaRegistracion) + "', '" + e + "', " + sensor + ")";
             System.out.println("La ultima sentencia sql es: " + sql);
-            super.hacerPersistente(sql);
+            super.realizarUpdate(sql);
             return true;
         } catch (SQLException ex) {
             Logger.getLogger(ModelRegistrarObra.class.getName()).log(Level.SEVERE, null, ex);

@@ -12,8 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -75,46 +73,45 @@ public class Conexion {
                 StringBuilder query = new StringBuilder("");
                 query.append("CREATE TABLE Empleado (cuit VARCHAR PRIMARY KEY  NOT NULL, apellido VARCHAR NOT NULL, nombre VARCHAR NOT NULL, ");
                 query.append("domicilio VARCHAR, mail  VARCHAR, sexo  VARCHAR, dni INTEGER, telefono INTEGER, fechaIngreso DATE, fechaEgreso  DATE);");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE Usuario ( nombre VARCHAR NOT NULL, contraseña   VARCHAR NOT NULL, ");
                 query.append(" caducidad BOOLEAN, cuitEmpleado VARCHAR REFERENCES Empleado ( cuit ) ON DELETE CASCADE  ON UPDATE CASCADE,");
                 query.append(" PRIMARY KEY ( nombre, contraseña ));");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE Sesion( fechaInicio DATE NOT NULL, fechaFin DATE  NOT NULL, nombreUsuario VARCHAR NOT NULL, ");
                 query.append(" contraseñaUsuario VARCHAR NOT NULL, PRIMARY KEY(fechaInicio, fechaFin, nombreUsuario, contraseñaUsuario), FOREIGN KEY ( nombreUsuario");
                 query.append(" , contraseñaUsuario ) REFERENCES Usuario ( nombre, contraseña ) ON DELETE CASCADE ON UPDATE CASCADE);");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE Estado(nombre VARCHAR PRIMARY KEY NOT NULL, descripcion VARCHAR);");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE Tecnica ( id INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, nombre  VARCHAR NOT NULL, ");
                 query.append("descripcion VARCHAR);");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE Estilo ( id INTEGER PRIMARY KEY ASC AUTOINCREMENT  NOT NULL, ");
                 query.append("nombre  VARCHAR NOT NULL, descripcion VARCHAR);");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE Artista ( idArtista INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, ");
                 query.append("nombre  VARCHAR NOT NULL, apellido VARCHAR NOT NULL, mail VARCHAR, pseudonimo VARCHAR, ");
                 query.append("antecedente VARCHAR, sexo VARCHAR, telefono    INTEGER);");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE TipoIngreso ( id INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, ");
                 query.append(" nombre  VARCHAR NOT NULL, descripcion VARCHAR);");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE Tematica ( idTematica INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, ");
                 query.append(" nombre VARCHAR);");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE Obra ( sensor INTEGER PRIMARY KEY ASC AUTOINCREMENT NOT NULL, ");
                 query.append(" nombre VARCHAR NOT NULL, fechaCreacion DATE, fechaRegistracion DATE, alto INTEGER, ");
                 query.append(" ancho  INTEGER, peso REAL, valuacion  REAL, idEstilo INTEGER REFERENCES Estilo ( id ) ON DELETE SET NULL  ON UPDATE CASCADE ");
                 query.append(", idTecnica INTEGER REFERENCES Tecnica ( id ) ON DELETE SET NULL  ON UPDATE CASCADE, ");
                 query.append("idTematica INTEGER REFERENCES Tematica ( idTematica ) ON DELETE SET NULL  ON UPDATE CASCADE);");
                 query.append("idArtista INTEGER REFERENCES Artista ( idArtista ) ON DELETE SET NULL  ON UPDATE CASCADE ");
-                hacerPersistente(query.toString());
+                realizarUpdate(query.toString());
                 query = new StringBuilder("CREATE TABLE HistorialEstado ( fecha DATETIME NOT NULL, ");
                 query.append(" nombreEstado VARCHAR NOT NULL REFERENCES Estado(nombre) ON DELETE CASCADE ON UPDATE CASCADE,");
                 query.append(" sensorObra   INTEGER REFERENCES Obra(sensor) ON DELETE CASCADE ON UPDATE CASCADE,");
                 query.append(" PRIMARY KEY(fecha, nombreEstado, sensorObra));");
-                hacerPersistente(query.toString());
-                cnx.commit();
+                realizarUpdate(query.toString());
                 System.out.println("Tablas creadas exitosamente");
             } else {
                 System.out.println("Usando DB existente");
@@ -138,21 +135,6 @@ public class Conexion {
      *
      * @throws SQLException
      */
-    public void hacerPersistente(String sql) throws SQLException {
-
-        cnx.close();
-        abrirConexion();
-//        Statement stmt = cnx.createStatement();
-//        int res = stmt.executeUpdate(sql);
-         ps = cnx.prepareStatement(sql);
-        ps.executeUpdate();
-        
-//        System.out.println("El res es "+res);
-//        stmt.close();
-        cnx.close();
-
-    }
-
     public void realizarUpdate(String sql) throws SQLException {
        
         cnx.close(); 
@@ -170,17 +152,10 @@ public class Conexion {
      */
     public ResultSet ejecutarConsulta(String sql) {
         try {
-//            Statement stmt = cnx.createStatement();
-//            
-//        
-//            
-//            System.out.println("El stmt "+stmt);
-//            System.out.println("El sql : "+sql);
-//            ResultSet r = stmt.executeQuery(sql);
-//            System.out.println("El r nulo? "+r);
             abrirConexion();
-            if(cnx == null || cnx.isClosed())
-            System.out.println("Conexion nula");
+            if(cnx == null || cnx.isClosed()) {
+                System.out.println("Conexion nula");
+            }
             ps = cnx.prepareStatement(sql);
             ResultSet r = ps.executeQuery();
             return r;
@@ -190,4 +165,5 @@ public class Conexion {
             return null;
         }
     }
+    
 }
