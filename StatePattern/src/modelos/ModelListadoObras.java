@@ -45,7 +45,8 @@ public class ModelListadoObras extends Conexion {
     }
 
     public Vector obtenerColumnasObra() throws SQLException {
-        sql = "SELECT idArtista, nombre, apellido, pseudonimo FROM obra";
+        sql = "SELECT o.sensor, o.nombre, o.fechaRegistracion, h.fecha as 'fecha estado', h.nombreEstado as estado "
+                + "FROM obra o JOIN HistorialEstado h ON o.sensor = h.sensorObra";
 
         ResultSet rs = super.ejecutarConsulta(sql);
 
@@ -61,7 +62,8 @@ public class ModelListadoObras extends Conexion {
     }
 
     public Vector obtenerDataObra() throws SQLException {
-        sql = "SELECT idArtista, nombre, apellido, pseudonimo FROM artista";
+        sql = "SELECT o.sensor, o.nombre, o.fechaRegistracion, h.fecha as 'fecha estado', h.nombreEstado as estado "
+                + "FROM obra o JOIN HistorialEstado h ON o.sensor = h.sensorObra";
 
         ResultSet rs = super.ejecutarConsulta(sql);
 
