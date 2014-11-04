@@ -804,11 +804,15 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                         valuacion = Double.parseDouble(this.txtValuacion.getText());
                     }
                     estilo = (Estilo) this.cboEstilo.getSelectedItem();
+                    System.out.println("guarde el ESTILO nombre: "+estilo.getNombre()+ " con id nro: "+estilo.getId());
                     tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
+                    System.out.println("guarde la TECNICA nombre: "+tecnica.getNombre()+ " con id nro: "+tecnica.getId());
                     tematica = (Tematica) this.cboTematica.getSelectedItem();
+                    System.out.println("guarde la TEMATICA nombre: "+tematica.getNombre()+ " con id nro: "+tematica.getId());
                     if (this.tableArtista.getSelectedRow() > -1) {
                         int aux= (int)this.tableArtista.getValueAt(this.tableArtista.getSelectedRow(), 0);
                         artista=gestor.armarArtista(aux);
+                        System.out.println("El artista es: "+artista.getPseudonimo()+ " y su id es: "+artista.getId());
                     } else {
                         artista = null;
                     }

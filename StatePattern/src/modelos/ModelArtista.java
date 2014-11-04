@@ -115,7 +115,7 @@ public class ModelArtista extends Conexion {
         sexo = rs.getString(7);
         telefono = rs.getInt(8);
         
-        e = new Artista(antecedente,nombre,apellido,mail,pseudonimo,sexo,telefono);
+        e = new Artista(id,antecedente,nombre,apellido,mail,pseudonimo,sexo,telefono);
 
         return e;
     }

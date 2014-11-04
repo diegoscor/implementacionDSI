@@ -20,6 +20,7 @@ public class Tecnica {
     }
     
     public Tecnica(int id, String nombre, String descripcion) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
