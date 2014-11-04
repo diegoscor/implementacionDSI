@@ -26,6 +26,7 @@ public class CtrListadoObras {
     }
     
     public void iniciarFrame(){
+        frm.setManejador(this);
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
         this.cargarGrilla();
