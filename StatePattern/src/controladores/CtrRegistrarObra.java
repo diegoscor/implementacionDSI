@@ -62,6 +62,7 @@ public class CtrRegistrarObra {
         this.cargarComboTipoIngreso();
         this.cargarGrilla();
         this.cargarEmpleado();
+        frm.setearTextos();
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
 

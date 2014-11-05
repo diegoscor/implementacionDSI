@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,6 +32,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.text.PlainDocument;
 import objetos.Artista;
 import objetos.Empleado;
 import objetos.Estado;
@@ -46,6 +46,7 @@ import utils.ComboRendererEstilo;
 import utils.ComboRendererTecnica;
 import utils.ComboRendererTematica;
 import utils.ComboRendererTipoIngreso;
+import utils.NumberRestriction;
 
 /**
  *
@@ -365,6 +366,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
         });
 
         btnQuitar.setText("<- Quitar");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
 
         btnPreview.setEnabled(false);
         btnPreview.setFocusable(false);
@@ -554,28 +560,34 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-
-        Obra obra = this.generarObra();
-        System.out.println("Se acaba de generar la obra");
-        if (obra != null) {
-            if (gestor.insertarObra(obra)) {
-                System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
-                JOptionPane.showMessageDialog(rootPane, "Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor(), "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+        if (0 == JOptionPane.showConfirmDialog(rootPane, "¿Confirma que desea registrar la obra?", "Confirme", JOptionPane.WARNING_MESSAGE)) {
+            Obra obra = this.generarObra();
+            System.out.println("Se acaba de generar la obra");
+            if (obra != null) {
+                if (gestor.insertarObra(obra)) {
+                    System.out.println("Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor());
+                    JOptionPane.showMessageDialog(rootPane, "Se guardo la obra: " + obra.getNombre() + " con sensor nro: " + obra.getSensor(), "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "No se puedo registrar correctamente la obra en al base de datos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                }
+                // gestor.cerrarCnx();
+                dispose();
             } else {
-                JOptionPane.showMessageDialog(rootPane, "No se puedo registrar correctamente la obra en al base de datos", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "Error en la creación del objeto Obra", "Error de generación", JOptionPane.ERROR_MESSAGE);
             }
-           // gestor.cerrarCnx();
-            dispose();
+
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Error en la creación del objeto Obra", "Error de generación", JOptionPane.ERROR_MESSAGE);
+            dispose();
         }
-
-
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         JOptionPane.showMessageDialog(null, "Se llama al CU N° 5 Registrar Artista", "Caso de Uso de Extensión", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+
+    }//GEN-LAST:event_btnQuitarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -667,6 +679,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
 
     public void setManejador(CtrRegistrarObra c) {
         gestor = c;
+    }
+
+    public void setearTextos() {
+        PlainDocument doc = (PlainDocument) txtAlto.getDocument();
+        doc.setDocumentFilter(new NumberRestriction());
     }
 
     /**
@@ -804,15 +821,11 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                         valuacion = Double.parseDouble(this.txtValuacion.getText());
                     }
                     estilo = (Estilo) this.cboEstilo.getSelectedItem();
-                    System.out.println("guarde el ESTILO nombre: "+estilo.getNombre()+ " con id nro: "+estilo.getId());
                     tecnica = (Tecnica) this.cboTecnica.getSelectedItem();
-                    System.out.println("guarde la TECNICA nombre: "+tecnica.getNombre()+ " con id nro: "+tecnica.getId());
                     tematica = (Tematica) this.cboTematica.getSelectedItem();
-                    System.out.println("guarde la TEMATICA nombre: "+tematica.getNombre()+ " con id nro: "+tematica.getId());
                     if (this.tableArtista.getSelectedRow() > -1) {
-                        int aux= (int)this.tableArtista.getValueAt(this.tableArtista.getSelectedRow(), 0);
-                        artista=gestor.armarArtista(aux);
-                        System.out.println("El artista es: "+artista.getPseudonimo()+ " y su id es: "+artista.getId());
+                        int aux = (int) this.tableArtista.getValueAt(this.tableArtista.getSelectedRow(), 0);
+                        artista = gestor.armarArtista(aux);
                     } else {
                         artista = null;
                     }
@@ -828,7 +841,7 @@ public class FrmRegistrarObra extends javax.swing.JFrame {
                             String s = this.listImagenes.getModel().getElementAt(i).toString();
                             imagenes.add(s);
                         }
-                        
+
                     }
                     System.out.println("Agregue imagenes a obra");
                     obra = new Obra(sensor, nombre, fechaCreacion, fechaRegistracion, alto, ancho, peso, valuacion, estilo, tecnica, tematica, artista, tipoIngreso, empleadoSesion, historial, imagenes);
