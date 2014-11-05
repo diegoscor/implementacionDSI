@@ -22,7 +22,7 @@ public class PendienteDeAsignacion extends Estado {
     @Override
     public void asignar(){
         //AsignadoDeposito
-        JOptionPane.showMessageDialog(null, "La obra será asignada a una colección.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "La obra será asignada a un lugar en el depósito.", "Funcionalidad Permitida", JOptionPane.INFORMATION_MESSAGE);
     }
     
 }

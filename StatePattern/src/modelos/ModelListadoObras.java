@@ -60,8 +60,8 @@ public class ModelListadoObras extends Conexion {
     }
 
     public Vector obtenerColumnasObra() throws SQLException {
-        sql = "SELECT o.sensor, o.nombre, o.fechaRegistracion, h.fecha as 'fecha estado', h.nombreEstado as estado "
-                + "FROM obra o JOIN HistorialEstado h ON o.sensor = h.sensorObra";
+        sql = "SELECT o.sensor, o.nombre, o.fechaRegistracion, MAX(h.fecha) as 'fecha estado', h.nombreEstado as estado"
+                + " FROM obra o JOIN HistorialEstado h ON o.sensor = h.sensorObra GROUP BY o.sensor";
 
         ResultSet rs = super.ejecutarConsulta(sql);
 
@@ -77,8 +77,8 @@ public class ModelListadoObras extends Conexion {
     }
 
     public Vector obtenerDataObra() throws SQLException {
-        sql = "SELECT o.sensor, o.nombre, o.fechaRegistracion, h.fecha as 'fecha estado', h.nombreEstado as estado "
-                + "FROM obra o JOIN HistorialEstado h ON o.sensor = h.sensorObra";
+        sql = "SELECT o.sensor, o.nombre, o.fechaRegistracion, MAX(h.fecha) as 'fecha estado', h.nombreEstado as estado"
+                + " FROM obra o JOIN HistorialEstado h ON o.sensor = h.sensorObra GROUP BY o.sensor";
 
         ResultSet rs = super.ejecutarConsulta(sql);
 
@@ -102,7 +102,6 @@ public class ModelListadoObras extends Conexion {
         Obra obra = null;
         String estado = "";
         sql = "SELECT h.nombreEstado FROM obra o JOIN historialEstado h ON o.sensor = h.sensorObra WHERE o.sensor=" + id;
-        System.out.println("La creacion de la obra se basa en el sql: "+sql);
         ResultSet rs = super.ejecutarConsulta(sql);
 
         try {
@@ -112,18 +111,14 @@ public class ModelListadoObras extends Conexion {
         } catch (SQLException ex) {
             Logger.getLogger(ModelArtista.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         Estado e = obtenerEstado(estado);
         System.out.println("se creo el estado");
         ArrayList<HistorialEstado> h = new ArrayList();
         Date date = new Date();
-        HistorialEstado he = new HistorialEstado(date,e);
-        h.add(he); 
-        System.out.println("se agrego el estado");
-        
+        HistorialEstado he = new HistorialEstado(date, e);
+        h.add(he);
         obra = new Obra(h);
-        System.out.println("se creo la obra");
-
         super.cerrarCnx();
 
         return obra;
@@ -163,5 +158,4 @@ public class ModelListadoObras extends Conexion {
         }
         return e;
     }
-
 }
